@@ -1,0 +1,19 @@
+{
+  "name": "ENEM 2027 Timão",
+  "short_name": "ENEM Timão",
+  "description": "Plataforma de estudos para o ENEM 2027, com trilhas, questões e redação.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0D0D0D",
+  "theme_color": "#D90429",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

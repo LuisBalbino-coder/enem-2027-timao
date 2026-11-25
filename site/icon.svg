@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0D0D0D"/>
+  <path d="M64 112h384v72H64zm0 216h384v72H64z" fill="#D90429"/>
+  <circle cx="256" cy="256" r="104" fill="#121212" stroke="#E0E0E0" stroke-width="8"/>
+  <text x="256" y="284" font-family="Arial, Helvetica, sans-serif" font-size="86" font-weight="700" fill="#FFFFFF" text-anchor="middle">E7</text>
+  <text x="256" y="446" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" letter-spacing="4" fill="#E0E0E0" text-anchor="middle">ENEM 2027</text>
+</svg>

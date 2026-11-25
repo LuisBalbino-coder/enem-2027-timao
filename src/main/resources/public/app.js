@@ -36,6 +36,9 @@
   }
 
   async function api(caminho, opcoes = {}) {
+    if (typeof window.apiOffline === "function") {
+      return window.apiOffline(caminho, opcoes);
+    }
     const resposta = await fetch(caminho, {
       headers: { "Content-Type": "application/json" },
       ...opcoes

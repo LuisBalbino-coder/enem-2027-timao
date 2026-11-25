@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ENEM 2027 Timão · Plataforma de estudos</title>
+  <meta name="description" content="Plataforma local de estudos para o ENEM 2027: História, Geografia, Redação, Matemática, Linguagens e Ciências da Natureza.">
+  <meta name="theme-color" content="#0D0D0D">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230D0D0D'/%3E%3Cpath d='M12 16h40v8H12zm0 24h40v8H12z' fill='%23D90429'/%3E%3Ctext x='32' y='40' font-family='Arial' font-size='22' font-weight='bold' fill='%23fff' text-anchor='middle'%3EE7%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <button class="marca" data-view="painel" aria-label="Ir para o painel">
+      <span class="escudo" aria-hidden="true">E7</span>
+      <span class="marca-texto">
+        <strong>ENEM 2027</strong>
+        <small>Timão da aprovação</small>
+      </span>
+    </button>
+
+    <nav class="abas" aria-label="Navegação principal">
+      <button class="aba ativa" data-view="painel" aria-current="page">Painel</button>
+      <button class="aba" data-view="calendario">Calendário</button>
+      <button class="aba" data-view="trilhas">Trilhas</button>
+      <button class="aba" data-view="questoes">Questões</button>
+      <button class="aba" data-view="redacao">Redação</button>
+    </nav>
+
+    <button class="icone-botao" id="abrir-config" aria-label="Configurações" title="Configurações">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <main id="conteudo">
+    <section class="view ativa" id="view-painel" aria-labelledby="titulo-painel">
+      <h1 class="oculto-visual" id="titulo-painel">Painel de estudos</h1>
+      <div class="carregando">Carregando seu painel…</div>
+    </section>
+
+    <section class="view" id="view-calendario" aria-labelledby="titulo-calendario">
+      <h1 class="oculto-visual" id="titulo-calendario">Calendário e cronograma</h1>
+      <div class="carregando">Carregando calendário…</div>
+    </section>
+
+    <section class="view" id="view-trilhas" aria-labelledby="titulo-trilhas">
+      <h1 class="oculto-visual" id="titulo-trilhas">Trilhas de estudo</h1>
+      <div class="carregando">Carregando trilhas…</div>
+    </section>
+
+    <section class="view" id="view-questoes" aria-labelledby="titulo-questoes">
+      <h1 class="oculto-visual" id="titulo-questoes">Banco de questões</h1>
+      <div class="carregando">Carregando questões…</div>
+    </section>
+
+    <section class="view" id="view-redacao" aria-labelledby="titulo-redacao">
+      <h1 class="oculto-visual" id="titulo-redacao">Laboratório de redação</h1>
+      <div class="carregando">Carregando redação…</div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>ENEM 2027 Timão</strong> · plataforma local de estudos · meta 600–650+ para Jogos Digitais na UFLA.</p>
+    <p class="rodape-frase">Não confie cegamente. Não desconfie de tudo. Verifique.</p>
+  </footer>
+
+  <div class="modal oculto" id="modal-config" role="dialog" aria-modal="true" aria-labelledby="titulo-config">
+    <div class="modal-caixa">
+      <div class="modal-topo">
+        <h2 id="titulo-config">Configurações</h2>
+        <button class="icone-botao" type="button" data-fechar-config aria-label="Fechar configurações">✕</button>
+      </div>
+      <form id="form-config" novalidate>
+        <label class="campo">
+          <span>Data do ENEM</span>
+          <input type="date" id="config-data" name="dataAlvo" required>
+          <small>A contagem e a cor da tela mudam conforme esta data.</small>
+        </label>
+        <label class="campo">
+          <span>Meta diária de estudo (minutos)</span>
+          <input type="number" id="config-minutos" name="metaDiariaMinutos" min="15" max="600" step="15" required>
+        </label>
+        <label class="campo">
+          <span>Meta diária de questões</span>
+          <input type="number" id="config-questoes" name="metaQuestoesDia" min="5" max="200" step="5" required>
+        </label>
+        <p class="erro oculto" id="config-erro" role="alert"></p>
+        <div class="modal-acoes">
+          <button type="button" class="botao-fantasma" data-fechar-config>Cancelar</button>
+          <button type="submit" class="botao">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast oculto" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <p class="aviso-noscript">Esta plataforma precisa de JavaScript habilitado para carregar o conteúdo do site.</p>
+  </noscript>
+
+  <script>window.ENEM_ESTATICO = true;</script>
+  <script src="offline.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
