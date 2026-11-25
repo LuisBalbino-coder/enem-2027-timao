@@ -14,11 +14,11 @@ public final class Payloads {
 
     public record Topico(int id, String slug, String titulo, String resumo, String dificuldade, int fase, int ordem,
                          String materiaSlug, String materiaNome, String materiaCor,
-                         int aulas, int questoes, int flashcards) {
+                         int aulas, int questoes, int flashcards, int aulasConcluidas) {
     }
 
     public record Aula(int id, String titulo, String tipo, String conteudo, String videoUrl, String videoArquivo,
-                       Integer duracaoMin, int ordem) {
+                       Integer duracaoMin, int ordem, boolean concluida) {
     }
 
     public record Alternativa(String letra, String texto) {
@@ -62,8 +62,48 @@ public final class Payloads {
     public record Fase(int numero, String nome, String descricao, String ate) {
     }
 
+    public record ResumoAulas(int concluidas, int total) {
+    }
+
     public record Dashboard(String hoje, String dataAlvo, long diasRestantes, int urgencia, Fase fase,
-                            MetaHoje meta, Contadores contadores, List<Materia> materias,
-                            List<Topico> proximos) {
+                            MetaHoje meta, Contadores contadores, ResumoAulas resumo,
+                            List<Materia> materias, List<Topico> proximos) {
+    }
+
+    public record Conclusao(int aulaId, boolean concluida, int aulasConcluidasTopico) {
+    }
+
+    public record SessaoInput(Integer minutos, String tipo, String descricao) {
+    }
+
+    public record Sessao(String data, int minutos, int totalHoje) {
+    }
+
+    public record Marco(String codigo, String data, String titulo, String descricao, String tipo) {
+    }
+
+    public record DiaCalendario(String data, int dia, boolean hoje, boolean alvo, int fase,
+                                List<Marco> marcos) {
+    }
+
+    public record Calendario(String mes, String titulo, String hoje, String dataAlvo, int faseAtual,
+                             int vazios, List<DiaCalendario> dias, List<Marco> marcos) {
+    }
+
+    public record AulaPlano(int aulaId, int topicoId, String topico, String topicoSlug, String materia,
+                            String materiaSlug, int prioridade, int faseTopico, String dificuldade,
+                            String titulo, Integer duracaoMin, boolean concluida) {
+    }
+
+    public record Tarefa(String tipo, Integer aulaId, String titulo, String topico, String topicoSlug,
+                         String materia, String materiaSlug, Integer duracaoMin, Integer questoes) {
+    }
+
+    public record DiaPlano(String data, String diaSemana, boolean hoje, String tipo, String titulo,
+                           String foco, int minutos, List<Tarefa> tarefas) {
+    }
+
+    public record Cronograma(String inicio, String fim, int fase, boolean bloqueioNovo, String observacao,
+                             List<DiaPlano> dias) {
     }
 }

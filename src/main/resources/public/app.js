@@ -17,6 +17,10 @@
     acertos: 0,
     respondidas: 0,
     abaRedacao: "competencias",
+    calendario: null,
+    cronograma: null,
+    mesCalendario: "",
+    aulasAbertas: new Set(),
     view: "painel"
   };
 
@@ -201,6 +205,41 @@
 
   function ligarEventos() {
     document.addEventListener("click", (evento) => {
+      const concluir = evento.target.closest("[data-concluir-aula]");
+      if (concluir) {
+        evento.preventDefault();
+        alternarAula(Number(concluir.dataset.concluirAula));
+        return;
+      }
+
+      const sessao = evento.target.closest("[data-sessao]");
+      if (sessao) {
+        evento.preventDefault();
+        registrarMinutos(Number(sessao.dataset.sessao));
+        return;
+      }
+
+      const mes = evento.target.closest("[data-mes]");
+      if (mes) {
+        evento.preventDefault();
+        if (mes.dataset.mes === "hoje") {
+          carregarCalendario(estado.dashboard.hoje.slice(0, 7));
+        } else {
+          const [ano, numeroMes] = estado.mesCalendario.split("-").map(Number);
+          carregarCalendario(novoMes(ano, numeroMes, mes.dataset.mes === "proximo" ? 1 : -1));
+        }
+        return;
+      }
+
+      const treinar = evento.target.closest("[data-treinar-materia]");
+      if (treinar) {
+        evento.preventDefault();
+        estado.filtros.materia = treinar.dataset.treinarMateria || "";
+        mostrarView("questoes");
+        renderQuestoes();
+        return;
+      }
+
       const view = evento.target.closest("[data-view]");
       if (view) {
         evento.preventDefault();
@@ -283,6 +322,14 @@
         fecharConfig();
       }
     });
+
+    document.addEventListener("toggle", (evento) => {
+      const detalhes = evento.target.closest("details.aula");
+      if (!detalhes) return;
+      const id = Number(detalhes.dataset.aulaId);
+      if (detalhes.open) estado.aulasAbertas.add(id);
+      else estado.aulasAbertas.delete(id);
+    }, true);
   }
 
   function mostrarView(nome) {
@@ -295,6 +342,11 @@
       else aba.removeAttribute("aria-current");
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (nome === "calendario" && !estado.calendario) {
+      const mes = estado.mesCalendario || (estado.dashboard ? estado.dashboard.hoje.slice(0, 7) : "");
+      carregarCalendario(mes);
+    }
   }
 
   function irParaMateria(slug) {
@@ -316,9 +368,10 @@
     const d = estado.dashboard;
     const pctMin = percentual(d.meta.minutosHoje, d.meta.minutosMeta);
     const pctQuestoes = percentual(d.meta.questoesHoje, d.meta.questoesMeta);
-    const mediaMaterias = d.materias.length
-      ? Math.round(d.materias.reduce((soma, m) => soma + m.percentual, 0) / d.materias.length)
-      : 0;
+    const planoHoje = estado.cronograma && estado.cronograma.dias.length ? estado.cronograma.dias[0] : null;
+    const aulasConcluidas = d.resumo ? d.resumo.concluidas : 0;
+    const aulasTotal = d.resumo ? d.resumo.total : 0;
+    const pctAulas = percentual(aulasConcluidas, aulasTotal);
 
     const materias = d.materias
       .map(
@@ -393,9 +446,9 @@
           <div class="barra" aria-hidden="true"><i style="width:${pctQuestoes}%"></i></div>
         </div>
         <div class="metrica">
-          <small>Tópicos instalados</small>
-          <strong>${d.contadores.topicos}</strong>
-          <div class="barra" aria-hidden="true"><i style="width:${mediaMaterias}%"></i></div>
+          <small>Progresso do curso</small>
+          <strong>${aulasConcluidas}<span class="alvo-meta"> / ${aulasTotal} aulas</span></strong>
+          <div class="barra" aria-hidden="true"><i style="width:${pctAulas}%"></i></div>
         </div>
         <div class="metrica">
           <small>Questões no banco</small>
@@ -403,6 +456,31 @@
           <div class="barra" aria-hidden="true"><i style="width:100%"></i></div>
         </div>
       </div>
+
+      <section class="secao">
+        <div class="secao-topo">
+          <h2>Meta de hoje</h2>
+          <p>${d.meta.minutosHoje} de ${d.meta.minutosMeta} min registrados</p>
+        </div>
+        <div class="meta-painel">
+          <div class="anel-meta" style="--pct:${pctMin}" role="img"
+               aria-label="${pctMin}% da meta diária de estudo">
+            <div class="anel-meta-centro">
+              <strong>${pctMin}%</strong>
+              <small>${d.meta.minutosHoje} / ${d.meta.minutosMeta} min</small>
+            </div>
+          </div>
+          <div class="meta-info">
+            <h3>Registre o que já estudou</h3>
+            <p>Cada sessão é salva no banco e atualiza a meta do dia.</p>
+            <div class="presets">
+              <button class="preset" data-sessao="15">+15 min</button>
+              <button class="preset" data-sessao="30">+30 min</button>
+              <button class="preset" data-sessao="60">+60 min</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="secao">
         <div class="secao-topo">
@@ -419,6 +497,22 @@
         </div>
         <div class="proximos">${proximos}</div>
       </section>
+
+      ${planoHoje ? `
+      <section class="secao">
+        <div class="secao-topo">
+          <h2>Plano de hoje</h2>
+          <button class="link-secao" data-view="calendario">Ver a semana →</button>
+        </div>
+        <div class="cartao plano-hoje">
+          <div class="plano-cabecalho">
+            <span class="badge vermelho">${escapar(rotuloTipo(planoHoje.tipo))}</span>
+            <strong>${escapar(planoHoje.titulo)}</strong>
+            <span class="plano-minutos">${planoHoje.minutos} min</span>
+          </div>
+          <ul class="tarefas">${tarefasHtml(planoHoje.tarefas)}</ul>
+        </div>
+      </section>` : ""}
 
       <section class="secao">
         <div class="secao-topo">
@@ -479,32 +573,40 @@
       ? (estado.materias.find((m) => m.slug === estado.materiaAtiva) || {}).nome || ""
       : "Todas as matérias";
 
+    const retaFinal = estado.dashboard && estado.dashboard.fase.numero === 3;
     const cartoes = topicos.length
       ? topicos
-          .map(
-            (t) => `
-          <button class="topico-card" data-topico="${escapar(t.slug)}">
+          .map((t) => {
+            const bloqueado = retaFinal && t.aulasConcluidas === 0;
+            return `
+          <button class="topico-card ${bloqueado ? "bloqueado" : ""}" data-topico="${escapar(t.slug)}" ${bloqueado ? "disabled" : ""}>
             <div class="badges">
               <span class="badge vermelho">${escapar(t.materiaNome)}</span>
               <span class="badge ${classeDificuldade(t.dificuldade)}">${escapar(rotuloDificuldade(t.dificuldade))}</span>
               <span class="badge">Fase ${t.fase}</span>
+              ${bloqueado ? '<span class="badge vermelho">Bloqueado na reta final</span>' : ""}
             </div>
             <h3>${escapar(t.titulo)}</h3>
             <p>${escapar(t.resumo)}</p>
             <div class="materia-rodape">
-              <span>${t.aulas} aula(s) · ${t.flashcards} flashcards</span>
+              <span>${t.aulasConcluidas}/${t.aulas} aulas · ${t.flashcards} flashcards</span>
               <span>${t.questoes} questão(ões)</span>
             </div>
-          </button>`
-          )
+          </button>`;
+          })
           .join("")
       : '<p class="filtro-vazio">Nenhum tópico nesta matéria ainda.</p>';
+
+    const avisoReta = retaFinal
+      ? '<div class="aviso-fase"><span aria-hidden="true">✦</span><span><strong>Reta final:</strong> conteúdo novo bloqueado. Priorize revisar os temas já estudados, os flashcards e os erros anteriores.</span></div>'
+      : "";
 
     alvo.innerHTML = `
       <div class="cabecalho-lista">
         <h2>${escapar(nomeMateria)}</h2>
         <span>${topicos.length} tópico(s)</span>
       </div>
+      ${avisoReta}
       <div class="lista-topicos">${cartoes}</div>
     `;
   }
@@ -514,13 +616,19 @@
     const aulas = (detalhe.aulas || [])
       .map(
         (aula) => `
-        <details class="aula">
+        <details class="aula" data-aula-id="${aula.id}" ${estado.aulasAbertas.has(aula.id) ? "open" : ""}>
           <summary>
             <span>${escapar(aula.titulo)}</span>
             <span class="badge">${aula.duracaoMin ? aula.duracaoMin + " min" : "leitura"}</span>
           </summary>
           <div class="aula-corpo">
             ${aula.conteudo ? `<div class="markdown">${markdown(aula.conteudo)}</div>` : "<p>Conteúdo em preparação.</p>"}
+            <div class="aula-rodape">
+              <button class="botao-concluir ${aula.concluida ? "concluida" : ""}"
+                      data-concluir-aula="${aula.id}" data-concluida="${aula.concluida}">
+                ${aula.concluida ? "✓ Aula concluída" : "Marcar como concluída"}
+              </button>
+            </div>
           </div>
         </details>`
       )
@@ -573,6 +681,9 @@
   }
 
   async function abrirTopico(slug) {
+    estado.materiaAtiva = "";
+    estado.aulasAbertas.clear();
+    mostrarView("trilhas");
     const alvo = $("#conteudo-trilhas");
     if (alvo) alvo.innerHTML = '<div class="carregando">Carregando tema…</div>';
     try {
@@ -582,6 +693,43 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (erro) {
       if (alvo) alvo.innerHTML = erroHtml(erro.message);
+    }
+  }
+
+  async function alternarAula(aulaId) {
+    const detalhe = estado.detalheTopico;
+    if (!detalhe) return;
+    const aula = detalhe.aulas.find((item) => item.id === aulaId);
+    if (!aula) return;
+    const concluir = !aula.concluida;
+
+    try {
+      const resultado = await api(`/api/aulas/${aulaId}/concluir`, {
+        method: concluir ? "POST" : "DELETE"
+      });
+      aula.concluida = concluir;
+      detalhe.topico.aulasConcluidas = resultado.aulasConcluidasTopico;
+      const resumo = estado.topicos.find((t) => t.slug === detalhe.topico.slug);
+      if (resumo) resumo.aulasConcluidas = resultado.aulasConcluidasTopico;
+      renderConteudoTrilhas();
+      await recarregarPainel();
+      if (estado.calendario) renderCalendario();
+      toast(concluir ? "Aula concluída. Progresso salvo." : "Aula desmarcada.");
+    } catch (erro) {
+      toast(erro.message);
+    }
+  }
+
+  async function registrarMinutos(minutos) {
+    try {
+      await api("/api/sessoes", {
+        method: "POST",
+        body: JSON.stringify({ minutos, tipo: "estudo" })
+      });
+      await recarregarPainel();
+      toast(`${minutos} min registrados hoje.`);
+    } catch (erro) {
+      toast(erro.message);
     }
   }
 
@@ -840,6 +988,169 @@
     `;
   }
 
+  // ------------------------------------------------------------ calendário
+
+  async function carregarCalendario(mes) {
+    const alvo = $("#view-calendario");
+    if (alvo) alvo.innerHTML = '<div class="carregando">Carregando calendário…</div>';
+    try {
+      const [calendario, cronograma] = await Promise.all([
+        api(`/api/calendario?mes=${encodeURIComponent(mes)}`),
+        estado.cronograma ? Promise.resolve(estado.cronograma) : api("/api/cronograma")
+      ]);
+      estado.calendario = calendario;
+      estado.cronograma = cronograma;
+      estado.mesCalendario = calendario.mes;
+      renderCalendario();
+    } catch (erro) {
+      if (alvo) alvo.innerHTML = erroHtml(erro.message);
+    }
+  }
+
+  function renderCalendario() {
+    const cal = estado.calendario;
+    if (!cal) return;
+    const minimo = estado.dashboard.hoje.slice(0, 7);
+    const maximo = estado.dashboard.dataAlvo.slice(0, 7);
+    const vazios = Array.from({ length: cal.vazios },
+      () => '<div class="dia vazio" aria-hidden="true"></div>').join("");
+    const dias = cal.dias.map((dia) => `
+      <div class="dia fase-${dia.fase} ${dia.hoje ? "hoje" : ""} ${dia.alvo ? "alvo" : ""}"
+           title="${escapar(rotuloDia(dia))}">
+        <span class="dia-numero">${dia.dia}</span>
+        ${dia.marcos.map((marco) => `<span class="dia-marco">${escapar(marco.titulo)}</span>`).join("")}
+      </div>`).join("");
+
+    const marcos = cal.marcos.length
+      ? cal.marcos.map((marco) => `
+        <article class="marco-card">
+          <span class="marco-data">${escapar(formatarDiaCurto(marco.data))}</span>
+          <div>
+            <h3>${escapar(marco.titulo)}</h3>
+            <p>${escapar(marco.descricao)}</p>
+          </div>
+          <span class="badge">${escapar(rotuloTipo(marco.tipo))}</span>
+        </article>`).join("")
+      : '<p class="filtro-vazio">Nenhum marco neste mês. Veja agosto a novembro de 2027 para simulado e reta final.</p>';
+
+    const semana = estado.cronograma
+      ? `<div class="semana">${estado.cronograma.dias.map(diaPlanoHtml).join("")}</div>
+         <p class="observacao-plano">${escapar(estado.cronograma.observacao)}</p>`
+      : '<p class="filtro-vazio">Cronograma indisponível no momento.</p>';
+
+    $("#view-calendario").innerHTML = `
+      <div class="calendario-topo">
+        <div>
+          <h2>Calendário até o ENEM</h2>
+          <p>Navegue pelos meses, acompanhe os marcos e veja o plano dos próximos 7 dias.</p>
+        </div>
+        <div class="mes-nav">
+          <button class="icone-botao" data-mes="anterior" aria-label="Mês anterior" ${cal.mes <= minimo ? "disabled" : ""}>←</button>
+          <strong>${escapar(cal.titulo)}</strong>
+          <button class="icone-botao" data-mes="proximo" aria-label="Próximo mês" ${cal.mes >= maximo ? "disabled" : ""}>→</button>
+          <button class="botao-fantasma" data-mes="hoje">Hoje</button>
+        </div>
+      </div>
+
+      <div class="calendario">
+        <div class="calendario-semana" aria-hidden="true">
+          <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+        </div>
+        <div class="calendario-grade">${vazios}${dias}</div>
+      </div>
+
+      <div class="legenda-fases">
+        <span class="legenda-item base">Fase 1 · Base</span>
+        <span class="legenda-item aprofundamento">Fase 2 · Aprofundamento</span>
+        <span class="legenda-item reta">Fase 3 · Reta final</span>
+        <span class="legenda-item alvo">Dia do ENEM</span>
+      </div>
+
+      <section class="secao">
+        <div class="secao-topo">
+          <h2>Marcos do mês</h2>
+          <p>${cal.marcos.length} marco(s)</p>
+        </div>
+        <div class="marcos-lista">${marcos}</div>
+      </section>
+
+      <section class="secao">
+        <div class="secao-topo">
+          <h2>Seu plano para os próximos 7 dias</h2>
+          <p>${estado.cronograma && estado.cronograma.bloqueioNovo ? "Conteúdo novo bloqueado" : "Uma aula por dia + questões"}</p>
+        </div>
+        ${semana}
+      </section>
+    `;
+  }
+
+  function diaPlanoHtml(dia) {
+    const classeTipo = dia.tipo === "estudo" ? "vermelho" : dia.tipo === "revisao" ? "verde" : "";
+    return `
+      <article class="dia-plano ${dia.hoje ? "hoje" : ""}">
+        <div class="dia-plano-topo">
+          <span>${escapar(dia.diaSemana)}</span>
+          <strong>${escapar(formatarDiaCurto(dia.data))}</strong>
+        </div>
+        <div class="badges">
+          <span class="badge ${classeTipo}">${escapar(rotuloTipo(dia.tipo))}</span>
+          <span class="badge">${dia.minutos} min</span>
+        </div>
+        <h3>${escapar(dia.titulo)}</h3>
+        <p class="foco">${escapar(dia.foco)}</p>
+        <ul class="tarefas">${tarefasHtml(dia.tarefas)}</ul>
+      </article>`;
+  }
+
+  function tarefasHtml(tarefas) {
+    return (tarefas || []).map((tarefa) => {
+      if (tarefa.tipo === "aula") {
+        return `<li><button class="tarefa" data-topico="${escapar(tarefa.topicoSlug)}">
+          <span class="tarefa-tipo">Aula</span>
+          <span>${escapar(tarefa.titulo)}<small>${escapar(tarefa.materia)}${tarefa.duracaoMin ? ` · ${tarefa.duracaoMin} min` : ""}</small></span>
+        </button></li>`;
+      }
+      if (tarefa.tipo === "questoes" || tarefa.tipo === "simulado") {
+        return `<li><button class="tarefa" data-treinar-materia="${escapar(tarefa.materiaSlug || "")}">
+          <span class="tarefa-tipo">${tarefa.tipo === "simulado" ? "Simulado" : "Questões"}</span>
+          <span>${escapar(tarefa.titulo)}<small>${tarefa.questoes || 0} questões</small></span>
+        </button></li>`;
+      }
+      return `<li><span class="tarefa">
+        <span class="tarefa-tipo">Revisão</span>
+        <span>${escapar(tarefa.titulo)}${tarefa.topico ? `<small>${escapar(tarefa.topico)}</small>` : ""}</span>
+      </span></li>`;
+    }).join("");
+  }
+
+  function rotuloDia(dia) {
+    const rotulo = formatarData(dia.data);
+    if (!dia.marcos.length) return rotulo;
+    return rotulo + " · " + dia.marcos.map((marco) => marco.titulo).join(" · ");
+  }
+
+  function rotuloTipo(tipo) {
+    const rotulos = {
+      estudo: "Estudo",
+      revisao: "Revisão",
+      simulado: "Simulado",
+      prova: "Prova",
+      conteudo: "Conteúdo"
+    };
+    return rotulos[tipo] || tipo;
+  }
+
+  function novoMes(ano, mes, delta) {
+    const data = new Date(ano, mes - 1 + delta, 1);
+    return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}`;
+  }
+
+  function formatarDiaCurto(iso) {
+    const [ano, mes, dia] = iso.split("-").map(Number);
+    return new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "short" })
+      .format(new Date(ano, mes - 1, dia));
+  }
+
   // ---------------------------------------------------------- configuração
 
   function abrirConfig() {
@@ -890,9 +1201,13 @@
     ]);
     estado.dashboard = dashboard;
     estado.materias = materias;
+    try {
+      estado.cronograma = await api("/api/cronograma");
+    } catch (_) {
+      /* o painel continua sem o plano */
+    }
     aplicarUrgencia(dashboard.urgencia);
     renderPainel();
-    renderTrilhas();
   }
 
   // ------------------------------------------------------------ utilidades
@@ -932,11 +1247,18 @@
       estado.dashboard = dashboard;
       estado.materias = materias;
       estado.topicos = topicos;
+      estado.mesCalendario = dashboard.hoje.slice(0, 7);
       estado.config = {
         dataAlvo: dashboard.dataAlvo,
         metaDiariaMinutos: dashboard.meta.minutosMeta,
         metaQuestoesDia: dashboard.meta.questoesMeta
       };
+
+      try {
+        estado.cronograma = await api("/api/cronograma");
+      } catch (_) {
+        estado.cronograma = null;
+      }
 
       aplicarUrgencia(dashboard.urgencia);
       renderPainel();

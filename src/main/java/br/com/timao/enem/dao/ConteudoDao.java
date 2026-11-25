@@ -18,7 +18,10 @@ public final class ConteudoDao {
                    m.slug AS materia_slug, m.nome AS materia_nome, m.cor AS materia_cor,
                    (SELECT COUNT(*) FROM aula a WHERE a.topico_id = t.id) AS aulas,
                    (SELECT COUNT(*) FROM questao q WHERE q.topico_id = t.id) AS questoes,
-                   (SELECT COUNT(*) FROM flashcard f WHERE f.topico_id = t.id) AS flashcards
+                   (SELECT COUNT(*) FROM flashcard f WHERE f.topico_id = t.id) AS flashcards,
+                   (SELECT COUNT(*) FROM aula_concluida ac
+                      JOIN aula a2 ON ac.aula_id = a2.id
+                     WHERE a2.topico_id = t.id AND ac.usuario_id = 1) AS aulas_concluidas
               FROM topico t
               JOIN materia m ON t.materia_id = m.id
             """;
@@ -110,8 +113,13 @@ public final class ConteudoDao {
 
     private static List<Payloads.Aula> aulas(Connection c, int topicoId) throws SQLException {
         String sql = """
-                SELECT id, titulo, tipo, conteudo, video_url, video_arquivo, duracao_min, ordem
-                  FROM aula WHERE topico_id = ? ORDER BY ordem
+                SELECT a.id, a.titulo, a.tipo, a.conteudo, a.video_url, a.video_arquivo,
+                       a.duracao_min, a.ordem,
+                       CASE WHEN ac.aula_id IS NULL THEN FALSE ELSE TRUE END AS concluida
+                  FROM aula a
+                  LEFT JOIN aula_concluida ac ON ac.aula_id = a.id AND ac.usuario_id = 1
+                 WHERE a.topico_id = ?
+                 ORDER BY a.ordem
                 """;
         List<Payloads.Aula> lista = new ArrayList<>();
         try (PreparedStatement ps = c.prepareStatement(sql)) {
@@ -123,7 +131,8 @@ public final class ConteudoDao {
                     lista.add(new Payloads.Aula(
                             rs.getInt("id"), rs.getString("titulo"), rs.getString("tipo"),
                             rs.getString("conteudo"), rs.getString("video_url"),
-                            rs.getString("video_arquivo"), duracaoOuNull, rs.getInt("ordem")));
+                            rs.getString("video_arquivo"), duracaoOuNull, rs.getInt("ordem"),
+                            rs.getBoolean("concluida")));
                 }
             }
         }
@@ -321,7 +330,65 @@ public final class ConteudoDao {
                 rs.getInt("id"), rs.getString("slug"), rs.getString("titulo"), rs.getString("resumo"),
                 rs.getString("dificuldade"), rs.getInt("fase"), rs.getInt("ordem"),
                 rs.getString("materia_slug"), rs.getString("materia_nome"), rs.getString("materia_cor"),
-                rs.getInt("aulas"), rs.getInt("questoes"), rs.getInt("flashcards"));
+                rs.getInt("aulas"), rs.getInt("questoes"), rs.getInt("flashcards"),
+                rs.getInt("aulas_concluidas"));
+    }
+
+    /** Aulas com a matéria e o tópico, usadas pelo gerador de cronograma. */
+    public static List<Payloads.AulaPlano> aulasParaPlano() {
+        String sql = """
+                SELECT a.id AS aula_id, a.titulo, a.duracao_min,
+                       t.id AS topico_id, t.titulo AS topico, t.slug AS topico_slug,
+                       t.fase AS fase_topico, t.dificuldade,
+                       m.nome AS materia, m.slug AS materia_slug, m.prioridade,
+                       CASE WHEN ac.aula_id IS NULL THEN FALSE ELSE TRUE END AS concluida
+                  FROM aula a
+                  JOIN topico t ON a.topico_id = t.id
+                  JOIN materia m ON t.materia_id = m.id
+                  LEFT JOIN aula_concluida ac ON ac.aula_id = a.id AND ac.usuario_id = 1
+                 ORDER BY m.prioridade, m.ordem, t.fase, t.ordem, a.ordem
+                """;
+        return Db.comConexao(c -> {
+            List<Payloads.AulaPlano> lista = new ArrayList<>();
+            try (PreparedStatement ps = c.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int duracao = rs.getInt("duracao_min");
+                    Integer duracaoOuNull = rs.wasNull() ? null : duracao;
+                    lista.add(new Payloads.AulaPlano(
+                            rs.getInt("aula_id"), rs.getInt("topico_id"), rs.getString("topico"),
+                            rs.getString("topico_slug"), rs.getString("materia"),
+                            rs.getString("materia_slug"), rs.getInt("prioridade"),
+                            rs.getInt("fase_topico"), rs.getString("dificuldade"),
+                            rs.getString("titulo"), duracaoOuNull, rs.getBoolean("concluida")));
+                }
+            }
+            return lista;
+        });
+    }
+
+    public static List<Payloads.Marco> marcosDoMes(java.time.LocalDate inicio, java.time.LocalDate fim) {
+        String sql = """
+                SELECT codigo, data, titulo, descricao, tipo
+                  FROM marco
+                 WHERE data BETWEEN ? AND ?
+                 ORDER BY data, id
+                """;
+        return Db.comConexao(c -> {
+            List<Payloads.Marco> lista = new ArrayList<>();
+            try (PreparedStatement ps = c.prepareStatement(sql)) {
+                ps.setDate(1, java.sql.Date.valueOf(inicio));
+                ps.setDate(2, java.sql.Date.valueOf(fim));
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        lista.add(new Payloads.Marco(rs.getString("codigo"),
+                                rs.getDate("data").toLocalDate().toString(), rs.getString("titulo"),
+                                rs.getString("descricao"), rs.getString("tipo")));
+                    }
+                }
+            }
+            return lista;
+        });
     }
 
     private static Payloads.Flashcard flashcard(ResultSet rs) throws SQLException {

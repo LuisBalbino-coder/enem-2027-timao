@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,8 @@ public final class Seed {
     private static final List<String> ARQUIVOS = List.of(
             "/seed/humanas.json",
             "/seed/redacao.json",
-            "/seed/geral.json");
+            "/seed/geral.json",
+            "/seed/calendario.json");
 
     private Seed() {
     }
@@ -48,6 +50,9 @@ public final class Seed {
                     }
                     for (JsonNode competencia : raiz.path("competencias")) {
                         salvarCompetencia(conn, competencia);
+                    }
+                    for (JsonNode marco : raiz.path("marcos")) {
+                        salvarMarco(conn, marco);
                     }
                 }
                 conn.commit();
@@ -403,6 +408,44 @@ public final class Seed {
                 ps.setString(2, texto(k, "descricao"));
                 ps.setString(3, texto(k, "criterios"));
                 ps.setInt(4, id);
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    // ----------------------------------------------------------- calendário
+
+    private static void salvarMarco(Connection c, JsonNode m) throws SQLException {
+        String codigo = texto(m, "codigo");
+        String dataTexto = texto(m, "data");
+        if (codigo == null || dataTexto == null) {
+            return;
+        }
+        LocalDate data;
+        try {
+            data = LocalDate.parse(dataTexto);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Marco com data inválida: " + codigo);
+        }
+        Integer id = buscarId(c, "SELECT id FROM marco WHERE codigo = ?", codigo);
+        if (id == null) {
+            String sql = "INSERT INTO marco (codigo, data, titulo, descricao, tipo) VALUES (?,?,?,?,?)";
+            try (PreparedStatement ps = c.prepareStatement(sql)) {
+                ps.setString(1, codigo);
+                ps.setDate(2, java.sql.Date.valueOf(data));
+                ps.setString(3, texto(m, "titulo", codigo));
+                ps.setString(4, texto(m, "descricao"));
+                ps.setString(5, texto(m, "tipo", "estudo"));
+                ps.executeUpdate();
+            }
+        } else {
+            String sql = "UPDATE marco SET data=?, titulo=?, descricao=?, tipo=? WHERE id=?";
+            try (PreparedStatement ps = c.prepareStatement(sql)) {
+                ps.setDate(1, java.sql.Date.valueOf(data));
+                ps.setString(2, texto(m, "titulo", codigo));
+                ps.setString(3, texto(m, "descricao"));
+                ps.setString(4, texto(m, "tipo", "estudo"));
+                ps.setInt(5, id);
                 ps.executeUpdate();
             }
         }

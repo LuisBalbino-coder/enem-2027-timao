@@ -1,0 +1,74 @@
+{
+  "marcos": [
+    {
+      "codigo": "marco-base-brasil",
+      "data": "2026-12-15",
+      "titulo": "Fechar História do Brasil colonial",
+      "descricao": "Ler as duas aulas, revisar os flashcards e resolver as 6 questões do tema.",
+      "tipo": "conteudo"
+    },
+    {
+      "codigo": "marco-base-humanas",
+      "data": "2027-02-15",
+      "titulo": "Base de História e Geografia concluída",
+      "descricao": "Todos os tópicos de Humanas lidos, com resumo próprio de cada um.",
+      "tipo": "conteudo"
+    },
+    {
+      "codigo": "marco-repertorio",
+      "data": "2027-04-15",
+      "titulo": "12 repertórios coringa dominados",
+      "descricao": "Saber aplicar cada repertório em pelo menos dois eixos temáticos diferentes.",
+      "tipo": "redacao"
+    },
+    {
+      "codigo": "marco-matematica",
+      "data": "2027-06-15",
+      "titulo": "Matemática básica fechada",
+      "descricao": "Proporção, porcentagem, gráficos e geometria com 80% de acerto nas questões fáceis.",
+      "tipo": "conteudo"
+    },
+    {
+      "codigo": "marco-fim-base",
+      "data": "2027-07-31",
+      "titulo": "Fim da Fase 1: base completa",
+      "descricao": "Encerrar a teoria e entrar no aprofundamento com o caderno de erros organizado.",
+      "tipo": "fase"
+    },
+    {
+      "codigo": "marco-inicio-simulados",
+      "data": "2027-08-01",
+      "titulo": "Início dos simulados semanais",
+      "descricao": "Um simulado cronometrado por semana, alternando Humanas, Linguagens e Natureza.",
+      "tipo": "simulado"
+    },
+    {
+      "codigo": "marco-redacao-intensiva",
+      "data": "2027-09-01",
+      "titulo": "Redação intensiva: 2 textos por semana",
+      "descricao": "Treinar as 5 competências com correção por checklist e reescrita.",
+      "tipo": "redacao"
+    },
+    {
+      "codigo": "marco-ultimo-simulado",
+      "data": "2027-09-30",
+      "titulo": "Último simulado completo",
+      "descricao": "Fechar o diagnóstico do aprofundamento e listar os temas que precisam de revisão.",
+      "tipo": "simulado"
+    },
+    {
+      "codigo": "marco-revisao",
+      "data": "2027-10-01",
+      "titulo": "Modo Revisão Rápida ativado",
+      "descricao": "Conteúdo novo pesado bloqueado: só resumos, flashcards, mapas mentais e erros anteriores.",
+      "tipo": "fase"
+    },
+    {
+      "codigo": "marco-enem",
+      "data": "2027-11-07",
+      "titulo": "ENEM 2027",
+      "descricao": "Dia da prova. Meta: 600–650+ para Jogos Digitais na UFLA.",
+      "tipo": "prova"
+    }
+  ]
+}

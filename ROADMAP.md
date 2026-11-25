@@ -28,16 +28,24 @@ idempotente após reinício, dashboard/trilhas/questões/redação renderizando 
 
 ---
 
-## Fase 2 — Cronograma inteligente e progresso persistido 🔜
+## Fase 2 — Cronograma inteligente e progresso persistido ✅
 
-- [ ] Calendário mensal navegável até novembro/2027, com marcos por mês
-- [ ] Cronograma semanal gerado a partir da prioridade das matérias e da fase pedagógica
-- [ ] Meta diária com anel de progresso e registro de minutos (`sessao_estudo`)
-- [ ] Marcar aula como concluída e progresso por matéria calculado de `aula_concluida`
-- [ ] Curva adaptativa: Fase 1 (base) → Fase 2 (médias/difíceis e simulados) → Fase 3 (revisão)
-- [ ] Bloqueio automático de conteúdo novo pesado na Fase 3
+**Status: concluída em 25/11/2026.**
+
+- [x] Calendário mensal navegável até novembro/2027, com marcos por mês (tabela `marco`)
+- [x] Cronograma semanal gerado a partir da prioridade das matérias e da fase pedagógica
+- [x] Meta diária com anel de progresso e registro de minutos (`sessao_estudo`)
+- [x] Marcar aula como concluída e progresso por matéria calculado de `aula_concluida`
+- [x] Curva adaptativa: Fase 1 (base) → Fase 2 (médias/difíceis e simulados) → Fase 3 (revisão)
+- [x] Bloqueio automático de conteúdo novo pesado na Fase 3
+- [x] `rodar.sh` recompila quando `src/` ou `pom.xml` ficam mais novos que o jar
 
 **Aceite:** recarregar o navegador mantém o progresso; mudar a data do sistema move a fase pedagógica.
+
+**Verificado em 25/11/2026:** build Maven sem erros; calendário de nov/2026 a nov/2027 com 10 marcos;
+cronograma de 7 dias intercalando História, Geografia, Redação, Matemática e demais matérias; conclusão
+de aula persistida e refletida no dashboard (0% → 20% em História); +15 min gravado e mantido após reload;
+fase 3 (data alvo simulada) bloqueou 22 de 23 tópicos, liberando apenas o tema já estudado; console sem erros.
 
 ---
 

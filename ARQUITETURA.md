@@ -16,7 +16,8 @@ Lema pedagógico: **base forte em Humanas e Redação, retorno alto em Matemáti
 | Versionamento | Git local | Commits por fase, sem push automático |
 
 Instalações locais usadas (sem sudo): JDK 21 Temurin em `~/.local/opt/jdk-21` e Maven em `~/.local/opt/maven`.
-O script `rodar.sh` exporta `JAVA_HOME`/`PATH` e compila apenas na primeira execução.
+O script `rodar.sh` exporta `JAVA_HOME`/`PATH` e recompila sempre que `src/` ou `pom.xml` ficam mais
+novos que o jar, evitando subir uma build antiga.
 
 > **Por que não Spring Boot?** Para um app local de usuário único, o ciclo `mvn package` + boot do Javalin é
 > bem mais curto, e o acesso direto a JDBC/H2 mantém o SQL visível e auditável — requisito do projeto.
@@ -38,10 +39,10 @@ enem-2027-timao/
     │   ├── dao/                # SQL (ConteudoDao, ProgressoDao, ConfiguracaoDao)
     │   ├── db/                 # conexão, schema, carga de seeds
     │   ├── model/Payloads.java # records de resposta (JSON)
-    │   └── service/Calendario.java
+    │   └── service/            # Calendario (fases/urgência) e PlanoEstudos (cronograma)
     └── resources/
         ├── schema.sql
-        ├── seed/               # JSONs de conteúdo + aulas em Markdown
+        ├── seed/               # JSONs de conteúdo, aulas em Markdown e calendário.json
         └── public/             # index.html, styles.css, app.js
 ```
 
@@ -67,12 +68,14 @@ conteúdo sem duplicar linhas e sem apagar o progresso do usuário.
 | `topico_progresso` | Última vez estudado (base do Desafio de Retenção) | `ultima_estudo`, `revisoes`, `proxima_revisao` |
 | `tentativa_questao` | Histórico de respostas (Fase 4) | `questao_id`, `resposta`, `correta`, `tempo_seg`, `criado_em` |
 | `sessao_estudo` | Meta diária e minutos | `data`, `minutos`, `tipo`, `descricao` |
+| `marco` | Calendário pedagógico (provas, simulados, fim de fase) | `codigo` (PK), `data`, `titulo`, `descricao`, `tipo` |
 | `redacao` | Rascunhos do laboratório (Fase 6) | `titulo`, `tema`, `texto`, `status`, `nota_estimada` |
 | `repertorio` | Banco de citações | `codigo`, `area`, `titulo`, `autor`, `citacao`, `aplicacao`, `tags` |
 | `tema_redacao` | Propostas para treinar | `codigo`, `titulo`, `ano`, `proposta`, `textos_motivadores` |
 | `competencia_redacao` | As 5 competências do ENEM | `numero`, `titulo`, `descricao`, `criterios` |
 
-Índices criados em FKs e em `questao(dificuldade)`, `topico(materia_id)`, `flashcard(topico_id)`.
+São 18 tabelas. Índices criados em FKs e em `questao(dificuldade)`, `topico(materia_id)`, `flashcard(topico_id)`
+e `marco(data)`.
 
 ### Política de conteúdo dos seeds
 
@@ -85,12 +88,12 @@ conteúdo sem duplicar linhas e sem apagar o progresso do usuário.
 
 ---
 
-## 3. API REST (Fase 1)
+## 3. API REST (Fases 1 e 2)
 
 | Método | Rota | Retorno |
 |---|---|---|
 | GET | `/api/saude` | status, versão, banco, horário |
-| GET | `/api/dashboard` | contagem regressiva, urgência, fase pedagógica, metas, progresso por matéria, próximos temas |
+| GET | `/api/dashboard` | contagem regressiva, urgência, fase pedagógica, metas, resumo de aulas e progresso por matéria |
 | GET | `/api/materias` | matérias com contagem de tópicos/aulas e percentual concluído |
 | GET | `/api/topicos?materia=slug` | tópicos filtráveis com matéria e contagens |
 | GET | `/api/topicos/{slug}` | tópico + aulas (Markdown) + flashcards + contagem de questões |
@@ -99,6 +102,11 @@ conteúdo sem duplicar linhas e sem apagar o progresso do usuário.
 | GET | `/api/redacao/repertorios` | citações por área |
 | GET | `/api/redacao/temas` | propostas de redação |
 | GET | `/api/redacao/competencias` | 5 competências e critérios |
+| GET | `/api/calendario?mes=AAAA-MM` | grade do mês, marcos e fases (limitado do mês atual ao mês da prova) |
+| GET | `/api/cronograma` | plano rolling dos próximos 7 dias, com tarefas e bloqueio da fase 3 |
+| POST | `/api/aulas/{id}/concluir` | marca aula como concluída e devolve o total do tópico |
+| DELETE | `/api/aulas/{id}/concluir` | desmarca a aula |
+| POST | `/api/sessoes` | registra minutos estudados (`{ minutos, tipo?, descricao? }`) |
 | GET | `/api/configuracoes` | data alvo, metas, nome |
 | PUT | `/api/configuracoes` | atualiza data alvo/metas com validação |
 
@@ -120,7 +128,8 @@ urgencia      = clamp( round(100 * (1 - diasRestantes / 730.0)), 0, 100 )
 - **730 dias** é a janela de referência (dois anos). Hoje (~347 dias restantes) a urgência fica perto de 52%:
   o vermelho já respira, mas ainda não domina a tela.
 - Fase pedagógica: **1 — Base** enquanto faltar mais de 3 meses; **2 — Aprofundamento** nos 3 meses
-  anteriores; **3 — Reta final** no último mês (quando o app ativa o Modo Revisão Rápida, Fase 7).
+  anteriores; **3 — Reta final** no último mês. Na fase 3 o cronograma não agenda aulas novas: bloqueia
+  tópicos sem nenhuma aula concluída e monta o dia com revisão, flashcards e erros anteriores.
 
 O `dashboard` devolve `urgencia`; o front escreve `--urgencia` no `:root` e o CSS deriva tudo:
 
@@ -141,7 +150,28 @@ Além do gradiente, o JS aplica `body.nivel-2` / `body.nivel-3` para intensifica
 
 ---
 
-## 5. Como rodar
+## 5. Cronograma, meta e progresso (Fase 2)
+
+O cronograma é **rolling**: sempre os próximos 7 dias a partir de hoje, recalculado a cada requisição.
+
+- **Fases 1 e 2:** cada matéria tem uma fila de aulas pendentes; a escolhida é a de maior
+  `peso / (agendados + 1)`, com peso **3** para História, Geografia e Redação, **2** para Matemática e
+  **1** para Linguagens e Ciências da Natureza. Isso intercala prioridades sem abandonar as demais.
+- **Fase 2:** dentro de cada fila, temas difíceis e médios vêm primeiro; o sábado ganha um simulado
+  cronometrado de 20 questões.
+- **Domingo:** revisão de flashcards/resumos da semana e refaça de questões erradas.
+- **Fase 3:** nenhuma aula nova; o plano reveza apenas tópicos com aula concluída (resumo + flashcards)
+  e questões. Sem histórico, cai em revisão geral de resumos e erros.
+- **Progresso:** `aula_concluida` é a fonte da verdade; o dashboard calcula `concluidas/total` e o
+  percentual de cada matéria direto do banco.
+- **Meta:** cada sessão grava `data`, `minutos` e `tipo` em `sessao_estudo`; a meta do dia soma as
+  sessões de hoje. Os atalhos +15/+30/+60 min usam o mesmo endpoint.
+- **Marcos:** `marco` guarda 10 datas pedagógicas (15/12/2026 a 07/11/2027), carregadas de
+  `seed/calendario.json` de forma idempotente.
+
+---
+
+## 6. Como rodar
 
 ```bash
 cd enem-2027-timao
@@ -149,15 +179,17 @@ cd enem-2027-timao
 ```
 
 - Requisitos já instalados nesta máquina: `~/.local/opt/jdk-21`, `~/.local/opt/maven`.
-- Recompilar após mudanças: `mvn -q -DskipTests package`.
+- `./rodar.sh` já recompila quando há fonte mais novo que o jar. Para forçar: `mvn -q -DskipTests package`.
 - Banco: `data/enem2027.mv.db`. Para recriar do zero, pare o servidor e apague a pasta `data/`.
 - Porta alternativa: `PORT=8080 ./rodar.sh`.
 
 ---
 
-## 6. Limites conhecidos da Fase 1
+## 7. Limites conhecidos da Fase 2
 
 - Quiz é **modo leitura**: revela gabarito/comentário, mas ainda não grava tentativa (Fase 4).
 - Flashcards são exibidos como baralho; repetição espaçada e botões Errei/Difícil/Fácil chegam na Fase 3.
+- O cronograma é automático: ainda não permite arrastar, trocar ou pular uma tarefa manualmente.
+- A navegação do calendário vai do mês atual ao mês da prova; meses passados não são editáveis.
 - Vídeos e editor de redação entram na Fase 6; o schema já reserva as tabelas.
 - Sem login multiusuário por decisão de escopo (plataforma local e pessoal).
