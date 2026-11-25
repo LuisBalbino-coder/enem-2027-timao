@@ -1,0 +1,410 @@
+{
+  "materias": [
+    {
+      "slug": "redacao",
+      "nome": "Redação",
+      "area": "Linguagens",
+      "cor": "#FF6B35",
+      "prioridade": 1,
+      "ordem": 3,
+      "descricao": "As 5 competências, a estrutura dissertativo-argumentativa, repertórios coringa e propostas de intervenção completas.",
+      "topicos": [
+        {
+          "slug": "red-competencias",
+          "titulo": "As 5 competências do ENEM",
+          "resumo": "Como os 1000 pontos são distribuídos, o que cada competência avalia e os erros que mais custam nota.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Entendendo a correção por competências",
+              "arquivo": "aulas/red-competencias.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-red-com-01",
+              "frente": "Quais são as 5 competências da redação do ENEM?",
+              "verso": "C1 norma padrão; C2 compreensão do tema e repertório; C3 projeto de texto e argumentação; C4 coesão; C5 proposta de intervenção.",
+              "dica": "Norma, tema, argumento, coesão, intervenção."
+            },
+            {
+              "codigo": "fc-red-com-02",
+              "frente": "Quanto vale cada competência?",
+              "verso": "Cada uma vale até 200 pontos, totalizando 1000. A nota final é a soma das cinco.",
+              "dica": "5 × 200 = 1000."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-red-01",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Na correção da redação do ENEM, a Competência 1 avalia o domínio da norma padrão da língua escrita. Um texto que apresenta muitos desvios gramaticais, mas cumpre bem o tema e a estrutura, tende a",
+              "gabarito": "B",
+              "comentario": "Cada competência é avaliada separadamente. Erros recorrentes de ortografia, pontuação, concordância e regência reduzem a nota da C1, mesmo que o texto tenha boa argumentação. A nota final soma as cinco competências, então um texto pode ir bem em C2/C3 e mal em C1.",
+              "alternativas": {
+                "A": "ser anulado automaticamente por fuga ao tema.",
+                "B": "perder pontos apenas na C1, mantendo a avaliação das demais competências.",
+                "C": "receber nota máxima, pois o conteúdo é mais importante que a forma.",
+                "D": "ser penalizado em todas as competências, sem exceção.",
+                "E": "ser corrigido apenas pela C5, que trata da intervenção."
+              }
+            },
+            {
+              "codigo": "q-red-02",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "A Competência 5 exige proposta de intervenção para o problema abordado. Para receber a pontuação máxima, a proposta deve apresentar",
+              "gabarito": "D",
+              "comentario": "A proposta completa precisa indicar agente, ação, meio/modo, finalidade e detalhamento, além de respeitar os direitos humanos. Citar apenas “o governo deve investir mais” sem dizer como, por quem e para quê costuma limitar a nota.",
+              "alternativas": {
+                "A": "apenas a opinião do autor, sem necessidade de viabilidade.",
+                "B": "uma crítica ao governo, mesmo sem sugerir ação concreta.",
+                "C": "a repetição da tese, sem detalhamento dos meios.",
+                "D": "agente, ação, meio/modo, finalidade e detalhamento, respeitando os direitos humanos.",
+                "E": "uma citação filosófica que substitua a proposta."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "red-introducao",
+          "titulo": "Introdução: contextualização e tese",
+          "resumo": "Como abrir o texto com repertório produtivo, apresentar o problema e defender uma tese clara em até quatro linhas.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Modelo de introdução em 3 movimentos",
+              "arquivo": "aulas/red-introducao.md",
+              "duracaoMin": 18
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-red-int-01",
+              "frente": "Quais são os três movimentos da introdução?",
+              "verso": "Contextualização (repertório), apresentação do problema e tese. Tudo em um único parágrafo, geralmente de 3 a 4 linhas.",
+              "dica": "Contexto → problema → tese."
+            },
+            {
+              "codigo": "fc-red-int-02",
+              "frente": "O que é uma tese na redação do ENEM?",
+              "verso": "É a posição que você defende sobre o tema, anunciando os argumentos que serão desenvolvidos. Precisa ser clara, específica e ligada à proposta.",
+              "dica": "É a resposta que o texto vai provar."
+            }
+          ],
+          "questoes": []
+        },
+        {
+          "slug": "red-desenvolvimento",
+          "titulo": "Desenvolvimento: argumentação em D1 e D2",
+          "resumo": "Tópico frasal, repertório aplicado, explicação e fechamento: como construir dois parágrafos que sustentem a tese.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Anatomia de um parágrafo argumentativo",
+              "arquivo": "aulas/red-desenvolvimento.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-red-des-01",
+              "frente": "O que é tópico frasal?",
+              "verso": "A primeira frase do parágrafo, que anuncia a ideia central a ser desenvolvida. Deve ligar-se diretamente à tese.",
+              "dica": "É o “título” do parágrafo."
+            },
+            {
+              "codigo": "fc-red-des-02",
+              "frente": "Como usar repertório sem parecer decorado?",
+              "verso": "Apresente o repertório e, em seguida, explique sua relação com o problema e com a tese. Nunca deixe a citação “solta”.",
+              "dica": "Repertório + interpretação + ligação com o tema."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-red-03",
+              "banca": "UNICAMP",
+              "fonte": "Autoral — padrão UNICAMP",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "Um parágrafo de desenvolvimento que começa com uma citação de um filósofo, mas não a relaciona ao tema proposto, tende a prejudicar a redação porque",
+              "gabarito": "C",
+              "comentario": "O repertório precisa ser produtivo: deve ser explicado e conectado ao problema. A citação solta demonstra conhecimento, mas não garante argumentação. Por isso, o parágrafo deve apresentar tópico frasal, repertório, interpretação e fechamento.",
+              "alternativas": {
+                "A": "citações são proibidas na redação do ENEM.",
+                "B": "o texto passa automaticamente a ser considerado fuga ao tema.",
+                "C": "o repertório deixa de sustentar a tese e vira enfeite sem função argumentativa.",
+                "D": "a competência 1 é anulada quando há citação.",
+                "E": "o parágrafo precisa ter obrigatoriamente dados estatísticos."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "red-intervencao",
+          "titulo": "Proposta de intervenção: os 5 elementos",
+          "resumo": "Agente, ação, meio, finalidade e detalhamento — com modelos prontos e erros que zeram a competência 5.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Como fechar o texto com uma proposta completa",
+              "arquivo": "aulas/red-intervencao.md",
+              "duracaoMin": 18
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-red-ite-01",
+              "frente": "Quais são os 5 elementos da proposta de intervenção?",
+              "verso": "Agente (quem), ação (o que), meio/modo (como), finalidade (para quê) e detalhamento (informação extra que comprova a viabilidade).",
+              "dica": "Quem, o quê, como, para quê, detalhe."
+            },
+            {
+              "codigo": "fc-red-ite-02",
+              "frente": "O que pode zerar a Competência 5?",
+              "verso": "Proposta que desrespeita os direitos humanos, que não se relaciona ao tema ou que se limita a uma opinião vaga, sem ação concreta.",
+              "dica": "Direitos humanos + vínculo com o tema."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-red-04",
+              "banca": "UFLA",
+              "fonte": "Autoral — padrão UFLA",
+              "autoral": true,
+              "dificuldade": "dificil",
+              "enunciado": "Considere a proposta: “O Ministério da Educação deve ampliar a oferta de internet nas escolas públicas, por meio de parcerias com universidades, para garantir acesso igualitário às aulas digitais.” Nessa proposta, o trecho “por meio de parcerias com universidades” corresponde ao elemento",
+              "gabarito": "C",
+              "comentario": "O agente é o Ministério da Educação; a ação é ampliar a oferta de internet; o meio/modo é a parceria com universidades; a finalidade é garantir acesso igualitário. O detalhamento poderia acrescentar prazo, verba ou forma de fiscalização.",
+              "alternativas": {
+                "A": "agente.",
+                "B": "finalidade.",
+                "C": "meio ou modo de execução.",
+                "D": "detalhamento.",
+                "E": "tese."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "red-repertorio",
+          "titulo": "Repertórios coringa para Humanas",
+          "resumo": "Um banco enxuto de repertórios de História, Geografia, Sociologia e atualidades, com aplicação por eixo temático.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Como construir e adaptar repertórios",
+              "arquivo": "aulas/red-repertorio.md",
+              "duracaoMin": 16
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-red-rep-01",
+              "frente": "O que é um repertório coringa?",
+              "verso": "Um repertório amplo o suficiente para ser adaptado a vários temas, como a Constituição de 1988, a desigualdade social ou a obra de Milton Santos sobre território.",
+              "dica": "Serve para vários temas, com adaptação."
+            },
+            {
+              "codigo": "fc-red-rep-02",
+              "frente": "Como evitar repertório decorado e desconectado?",
+              "verso": "Explique o repertório, relacione-o ao problema e mostre como ele sustenta a tese. Repertório bom é o que argumenta, não o que enfeita.",
+              "dica": "Sempre conecte ao tema."
+            }
+          ],
+          "questoes": []
+        }
+      ]
+    }
+  ],
+  "competencias": [
+    {
+      "numero": 1,
+      "titulo": "Domínio da norma padrão da língua escrita",
+      "descricao": "Avalia ortografia, pontuação, concordância, regência, acentuação e escolha lexical. Não é uma prova de gramática decorada: é a clareza da norma culta em uso.",
+      "criterios": "Evite marcas de oralidade, abreviações e gírias. Revise concordância verbal e nominal, pontuação de períodos longos e uso de conectivos. Erros sistemáticos custam mais que um deslize isolado."
+    },
+    {
+      "numero": 2,
+      "titulo": "Compreensão do tema e aplicação de conceitos",
+      "descricao": "Verifica se o texto aborda o tema proposto, sem fugir, e se mobiliza repertório sociocultural pertinente em um texto dissertativo-argumentativo.",
+      "criterios": "Leia a proposta com atenção, defina o recorte e use repertório produtivo (história, geografia, filosofia, dados). Não copie os textos motivadores."
+    },
+    {
+      "numero": 3,
+      "titulo": "Seleção e organização de informações",
+      "descricao": "Avalia o projeto de texto: tese clara, argumentos organizados, progressão e defesa de um ponto de vista.",
+      "criterios": "Cada parágrafo deve ter uma ideia central. Use repertório para sustentar a tese, não para listar informações. Evite contradições e repetições."
+    },
+    {
+      "numero": 4,
+      "titulo": "Mecanismos linguísticos de coesão",
+      "descricao": "Avalia o uso de conectivos, pronomes, advérbios e outros recursos que garantem a articulação entre frases e parágrafos.",
+      "criterios": "Varie os conectivos (portanto, além disso, por conseguinte, nesse sentido). Garanta que cada parágrafo retome o anterior e prepare o seguinte."
+    },
+    {
+      "numero": 5,
+      "titulo": "Proposta de intervenção",
+      "descricao": "Exige uma solução concreta para o problema, com agente, ação, meio/modo, finalidade e detalhamento, respeitando os direitos humanos.",
+      "criterios": "Seja específico: quem faz, o que faz, como, para quê e com qual detalhe de viabilidade. Evite propostas genéricas como “o governo deve investir mais”."
+    }
+  ],
+  "repertorios": [
+    {
+      "codigo": "rep-01",
+      "area": "História",
+      "titulo": "Casa-grande e senzala",
+      "autor": "Gilberto Freyre",
+      "citacao": "Freyre descreve a formação patriarcal brasileira a partir da casa-grande e da senzala, mostrando como o poder privado dos senhores organizou a vida social, a família e as relações de trabalho.",
+      "aplicacao": "Desigualdade social, formação do Brasil, relações de poder, racismo estrutural, violência doméstica.",
+      "tags": "formação social, patriarcado, escravidão"
+    },
+    {
+      "codigo": "rep-02",
+      "area": "Sociologia",
+      "titulo": "Raízes do Brasil",
+      "autor": "Sérgio Buarque de Holanda",
+      "citacao": "A ideia de “homem cordial” mostra que a cordialidade brasileira não é ausência de conflito, mas a dificuldade de separar o público do privado nas relações sociais e políticas.",
+      "aplicacao": "Corrupção, personalismo político, nepotismo, relações sociais, cidadania.",
+      "tags": "homem cordial, público e privado"
+    },
+    {
+      "codigo": "rep-03",
+      "area": "Literatura",
+      "titulo": "Quarto de despejo",
+      "autor": "Carolina Maria de Jesus",
+      "citacao": "No diário de Carolina, a fome, o lixo e a precariedade aparecem como experiências cotidianas de uma mulher negra e pobre na periferia de São Paulo, revelando a desigualdade por dentro da cidade.",
+      "aplicacao": "Desigualdade social, fome, moradia, racismo, invisibilidade das periferias.",
+      "tags": "periferia, fome, racismo"
+    },
+    {
+      "codigo": "rep-04",
+      "area": "História",
+      "titulo": "O povo brasileiro",
+      "autor": "Darcy Ribeiro",
+      "citacao": "Darcy Ribeiro interpreta a formação do povo brasileiro como resultado de violência colonial, miscigenação e desigualdade, recusando a ideia de uma democracia racial harmônica.",
+      "aplicacao": "Identidade nacional, racismo, desigualdade, formação social.",
+      "tags": "formação do povo, violência colonial"
+    },
+    {
+      "codigo": "rep-05",
+      "area": "Geografia",
+      "titulo": "Geografia da fome",
+      "autor": "Josué de Castro",
+      "citacao": "Josué de Castro trata a fome como fenômeno político e social, e não como fatalidade natural, relacionando-a à estrutura fundiária e à distribuição de renda.",
+      "aplicacao": "Fome, segurança alimentar, desigualdade, agricultura, políticas públicas.",
+      "tags": "fome, território, política"
+    },
+    {
+      "codigo": "rep-06",
+      "area": "Geografia",
+      "titulo": "O espaço dividido",
+      "autor": "Milton Santos",
+      "citacao": "Milton Santos mostra que o espaço urbano é organizado de forma desigual: a cidade concentra oportunidades em algumas áreas e empurra a população pobre para as periferias.",
+      "aplicacao": "Segregação socioespacial, mobilidade urbana, favelas, direito à cidade.",
+      "tags": "cidade, desigualdade, território"
+    },
+    {
+      "codigo": "rep-07",
+      "area": "Atualidades",
+      "titulo": "Ideias para adiar o fim do mundo",
+      "autor": "Ailton Krenak",
+      "citacao": "Krenak critica a ideia de que a natureza é um recurso a ser explorado e defende outra relação entre humanidade e território, baseada em cuidado e pertencimento.",
+      "aplicacao": "Meio ambiente, povos indígenas, sustentabilidade, consumismo, mudanças climáticas.",
+      "tags": "natureza, indígenas, sustentabilidade"
+    },
+    {
+      "codigo": "rep-08",
+      "area": "Filosofia",
+      "titulo": "Origens do totalitarismo",
+      "autor": "Hannah Arendt",
+      "citacao": "Arendt analisa como a obediência irrefletida e a burocracia podem permitir atrocidades, chamando atenção para a responsabilidade individual diante de regimes autoritários.",
+      "aplicacao": "Autoritarismo, desinformação, violência de Estado, ética, cidadania.",
+      "tags": "totalitarismo, responsabilidade"
+    },
+    {
+      "codigo": "rep-09",
+      "area": "Sociologia",
+      "titulo": "Modernidade líquida",
+      "autor": "Zygmunt Bauman",
+      "citacao": "Bauman descreve relações sociais frágeis e transitórias, marcadas pelo consumo e pela velocidade das transformações, em que vínculos duradouros se tornam difíceis.",
+      "aplicacao": "Redes sociais, saúde mental, consumo, solidão, relações afetivas.",
+      "tags": "modernidade, consumo, vínculos"
+    },
+    {
+      "codigo": "rep-10",
+      "area": "Direito",
+      "titulo": "Constituição de 1988",
+      "autor": "Assembleia Nacional Constituinte",
+      "citacao": "A Constituição Cidadã estabelece direitos sociais, saúde e educação como deveres do Estado e princípios de dignidade da pessoa humana, servindo de base para políticas públicas.",
+      "aplicacao": "Direitos sociais, saúde, educação, cidadania, papel do Estado.",
+      "tags": "constituição, direitos, Estado"
+    },
+    {
+      "codigo": "rep-11",
+      "area": "Atualidades",
+      "titulo": "Agenda 2030 e ODS",
+      "autor": "Organização das Nações Unidas",
+      "citacao": "Os Objetivos de Desenvolvimento Sustentável propõem metas globais para erradicar a pobreza, reduzir desigualdades e proteger o meio ambiente até 2030.",
+      "aplicacao": "Sustentabilidade, desigualdade, fome, água, energia, políticas públicas.",
+      "tags": "ODS, ONU, sustentabilidade"
+    },
+    {
+      "codigo": "rep-12",
+      "area": "Literatura",
+      "titulo": "O perigo da história única",
+      "autor": "Chimamanda Ngozi Adichie",
+      "citacao": "Adichie alerta que reduzir um povo ou um lugar a uma única narrativa produz estereótipos e invisibiliza a diversidade de experiências.",
+      "aplicacao": "Estereótipos, racismo, mídia, diversidade, representatividade.",
+      "tags": "narrativa, estereótipo, diversidade"
+    }
+  ],
+  "temas": [
+    {
+      "codigo": "tema-01",
+      "titulo": "Desafios para a universalização do acesso à água potável no Brasil",
+      "ano": 2026,
+      "proposta": "A partir dos textos motivadores e do seu repertório, redija um texto dissertativo-argumentativo sobre os desafios para garantir água potável a toda a população brasileira, propondo uma intervenção que respeite os direitos humanos.",
+      "textosMotivadores": "Considere a distribuição desigual de recursos hídricos, a precariedade do saneamento nas periferias e os impactos das mudanças climáticas sobre secas e enchentes."
+    },
+    {
+      "codigo": "tema-02",
+      "titulo": "Caminhos para combater a desinformação na era digital",
+      "ano": 2026,
+      "proposta": "Redija um texto dissertativo-argumentativo sobre os efeitos da desinformação na sociedade brasileira e apresente propostas para enfrentá-la sem restringir a liberdade de expressão.",
+      "textosMotivadores": "Considere o papel das redes sociais, a velocidade de compartilhamento, a checagem de fatos e a educação midiática."
+    },
+    {
+      "codigo": "tema-03",
+      "titulo": "Mobilidade urbana e direito à cidade nas grandes metrópoles",
+      "ano": 2026,
+      "proposta": "Discuta os desafios da mobilidade urbana nas metrópoles brasileiras e proponha soluções que reduzam as desigualdades de acesso ao transporte.",
+      "textosMotivadores": "Considere o tempo de deslocamento da periferia, a prioridade histórica ao automóvel e alternativas como transporte público integrado e ciclovias."
+    },
+    {
+      "codigo": "tema-04",
+      "titulo": "Saúde mental dos jovens no contexto das redes sociais",
+      "ano": 2026,
+      "proposta": "Redija um texto dissertativo-argumentativo sobre os impactos das redes sociais na saúde mental dos jovens e apresente uma proposta de intervenção viável.",
+      "textosMotivadores": "Considere a comparação constante, o cyberbullying, a busca por validação e o papel da escola e da família."
+    },
+    {
+      "codigo": "tema-05",
+      "titulo": "Valorização da agricultura familiar e soberania alimentar",
+      "ano": 2026,
+      "proposta": "Discuta a importância da agricultura familiar para o abastecimento e a soberania alimentar do Brasil, propondo medidas para fortalecê-la.",
+      "textosMotivadores": "Considere a concentração fundiária, o êxodo rural, o crédito agrícola e a produção de alimentos básicos."
+    }
+  ]
+}

@@ -1,0 +1,583 @@
+{
+  "materias": [
+    {
+      "slug": "historia",
+      "nome": "História",
+      "area": "Ciências Humanas",
+      "cor": "#D90429",
+      "prioridade": 1,
+      "ordem": 1,
+      "descricao": "Base teórica completa do Brasil e do mundo, com foco no que o ENEM mais cobra: colonial, Era Vargas, guerras e ditadura.",
+      "topicos": [
+        {
+          "slug": "hst-brasil-colonial",
+          "titulo": "Brasil Colonial: açúcar, escravidão e resistência",
+          "resumo": "Plantation, pacto colonial, mineração e as formas de resistência à escravidão — o bloco mais recorrente de História do Brasil no ENEM.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "A economia açucareira e a sociedade colonial",
+              "arquivo": "aulas/hist-brasil-colonial.md",
+              "duracaoMin": 22
+            },
+            {
+              "titulo": "Revisão rápida: linha do tempo e pegadinhas",
+              "arquivo": "aulas/hist-brasil-colonial-resumo.md",
+              "duracaoMin": 10
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-hst-col-01",
+              "frente": "O que caracteriza o sistema de plantation?",
+              "verso": "Monocultura, latifúndio, trabalho escravizado e produção voltada à exportação. No Brasil, o açúcar foi o principal produto até o fim do século XVII.",
+              "dica": "Quatro características: mono, latifúndio, escravidão, exportação."
+            },
+            {
+              "codigo": "fc-hst-col-02",
+              "frente": "O que era o pacto colonial?",
+              "verso": "Conjunto de regras que subordinava a colônia à metrópole: a colônia só poderia comerciar com Portugal, vendendo matérias-primas e comprando manufaturados. Na prática, foi furado pelo contrabando.",
+              "dica": "Exclusividade comercial, nem sempre respeitada."
+            },
+            {
+              "codigo": "fc-hst-col-03",
+              "frente": "Cite três formas de resistência à escravidão no Brasil.",
+              "verso": "Fugas e quilombos (Palmares), revoltas e irmandades religiosas, preservação cultural (capoeira, candomblé, línguas) e resistência cotidiana ao trabalho.",
+              "dica": "Resistência não foi só fuga armada."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-hst-01",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "A colonização portuguesa na América organizou a produção de açúcar em grandes propriedades, com uso intensivo de trabalho escravizado e voltada ao mercado europeu. Esse modelo econômico é conhecido como plantation e teve como consequência social mais direta a",
+              "gabarito": "C",
+              "comentario": "A plantation combinou latifúndio, monocultura, escravidão e exportação. Isso concentrou terra, renda e poder nas mãos dos senhores de engenho e consolidou uma sociedade hierárquica e excludente. As demais alternativas negam a concentração fundiária ou atribuem ao modelo características que ele não tinha, como industrialização ou distribuição igualitária de terras.",
+              "alternativas": {
+                "A": "distribuição relativamente equilibrada das terras entre pequenos produtores.",
+                "B": "industrialização precoce do litoral, com atração de mão de obra assalariada europeia.",
+                "C": "concentração de terra, renda e poder, com forte hierarquia social.",
+                "D": "predominância do trabalho livre e da produção para o mercado interno.",
+                "E": "integração igualitária de indígenas e africanos à sociedade colonial."
+              }
+            },
+            {
+              "codigo": "q-hst-02",
+              "banca": "UFLA",
+              "fonte": "Autoral — padrão UFLA",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "Os quilombos, como o de Palmares, foram comunidades formadas por pessoas escravizadas que fugiam do cativeiro. Na historiografia atual, esses espaços são interpretados principalmente como",
+              "gabarito": "B",
+              "comentario": "Quilombos não foram apenas refúgios isolados: funcionaram como territórios de resistência política e cultural, com organização econômica e social própria. A alternativa B sintetiza essa leitura. As demais reduzem o fenômeno a criminalidade, passividade ou a uma suposta harmonia com o sistema escravista.",
+              "alternativas": {
+                "A": "locais de isolamento sem importância econômica ou política para a colônia.",
+                "B": "territórios de resistência política e cultural, com organização social própria.",
+                "C": "prova de que a escravidão no Brasil foi mais branda que em outras colônias.",
+                "D": "iniciativas toleradas e financiadas pela Coroa portuguesa.",
+                "E": "comunidades exclusivamente indígenas, sem participação de africanos."
+              }
+            },
+            {
+              "codigo": "q-hst-03",
+              "banca": "FUVEST",
+              "fonte": "Autoral — padrão FUVEST",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "A proposta de separação dos poderes, defendida por Montesquieu em O espírito das leis, teve impacto direto nas revoluções liberais dos séculos XVIII e XIX porque",
+              "gabarito": "D",
+              "comentario": "Montesquieu sistematizou a ideia de freios e contrapesos entre Executivo, Legislativo e Judiciário, limitando o poder absoluto. Essa formulação foi incorporada a constituições liberais, como a dos Estados Unidos e a francesa pós-1789. Não se trata de defesa do voto censitário, do mercantilismo ou de uma monarquia de direito divino.",
+              "alternativas": {
+                "A": "justificava o poder ilimitado do monarca como expressão da vontade divina.",
+                "B": "defendia a abolição imediata da propriedade privada.",
+                "C": "propunha a fusão dos poderes para acelerar decisões do Estado.",
+                "D": "oferecia um mecanismo institucional de limitação do poder, com freios e contrapesos.",
+                "E": "reforçava o monopólio comercial das metrópoles sobre as colônias."
+              }
+            },
+            {
+              "codigo": "q-hst-04",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "A Consolidação das Leis do Trabalho (CLT), promulgada em 1943, é frequentemente associada ao governo de Getúlio Vargas. Essa associação se explica porque a CLT",
+              "gabarito": "A",
+              "comentario": "A CLT reuniu e ampliou direitos trabalhistas urbanos, como jornada de oito horas, férias e carteira de trabalho. Ao mesmo tempo, manteve os sindicatos atrelados ao Estado, o que caracteriza o trabalhismo varguista. Ela não criou o voto feminino (1932/1934), não aboliu a escravidão (1888) nem se aplicou ao campo de forma ampla.",
+              "alternativas": {
+                "A": "regulamentou direitos do trabalho urbano, mantendo sindicatos vinculados ao Estado.",
+                "B": "instituiu o voto feminino e a justiça eleitoral no Brasil.",
+                "C": "estendeu os direitos trabalhistas de forma plena aos trabalhadores rurais.",
+                "D": "aboliu definitivamente o trabalho escravo no país.",
+                "E": "implantou o regime parlamentarista e reduziu os poderes do presidente."
+              }
+            },
+            {
+              "codigo": "q-hst-05",
+              "banca": "UNESP",
+              "fonte": "Autoral — padrão UNESP",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "O Plano Marshall, lançado pelos Estados Unidos em 1947, foi uma das principais ferramentas da política externa norte-americana no início da Guerra Fria. Seu objetivo central era",
+              "gabarito": "C",
+              "comentario": "O plano financiou a reconstrução da Europa Ocidental, criando mercados para os produtos norte-americanos e fortalecendo governos aliados contra a influência soviética. Não foi um programa de ajuda à URSS, nem uma aliança militar (essa era a OTAN) e muito menos uma iniciativa de descolonização.",
+              "alternativas": {
+                "A": "financiar a reconstrução da União Soviética após a Segunda Guerra.",
+                "B": "criar uma aliança militar integrada por todos os países europeus, inclusive a URSS.",
+                "C": "financiar a reconstrução da Europa Ocidental e conter a influência soviética.",
+                "D": "estimular a descolonização da África e da Ásia.",
+                "E": "substituir a ONU como principal fórum de negociação internacional."
+              }
+            },
+            {
+              "codigo": "q-hst-06",
+              "banca": "UNICAMP",
+              "fonte": "Autoral — padrão UNICAMP",
+              "autoral": true,
+              "dificuldade": "dificil",
+              "enunciado": "O Ato Institucional nº 5, de dezembro de 1968, é considerado um marco do endurecimento da ditadura militar brasileira porque",
+              "gabarito": "E",
+              "comentario": "O AI-5 fechou o Congresso, suspendeu o habeas corpus para crimes políticos, permitiu cassações e institucionalizou a censura e a tortura como prática de Estado. As outras alternativas descrevem medidas anteriores (AI-1) ou posteriores (abertura e Constituinte), ou ainda confundem o regime militar com a Era Vargas.",
+              "alternativas": {
+                "A": "restabeleceu as eleições diretas para presidente e devolveu os direitos políticos aos cassados.",
+                "B": "criou a CLT e regulamentou o trabalho urbano no país.",
+                "C": "determinou a anistia ampla, geral e irrestrita aos perseguidos políticos.",
+                "D": "convocou a Assembleia Constituinte que elaborou a Constituição de 1988.",
+                "E": "suspendeu garantias constitucionais, fechou o Congresso e ampliou a repressão política."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "hst-iluminismo-revolucoes",
+          "titulo": "Iluminismo, Revolução Industrial e Revoluções Atlânticas",
+          "resumo": "Razão, liberalismo, máquina a vapor, Revolução Francesa e independências: a transição do Antigo Regime para o mundo contemporâneo.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Do Antigo Regime ao mundo industrial",
+              "arquivo": "aulas/hist-iluminismo.md",
+              "duracaoMin": 25
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-hst-ilu-01",
+              "frente": "Quais são os três poderes propostos por Montesquieu?",
+              "verso": "Executivo, Legislativo e Judiciário, com freios e contrapesos para evitar a concentração de poder.",
+              "dica": "Pensou no equilíbrio entre poderes."
+            },
+            {
+              "codigo": "fc-hst-ilu-02",
+              "frente": "Por que a Revolução Industrial começou na Inglaterra?",
+              "verso": "Acumulação de capital colonial, cercamentos (mão de obra barata), carvão e ferro, mercado interno e estabilidade política que favorecia investimentos.",
+              "dica": "Capital, mão de obra, recursos e mercado."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-hst-07",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "A Revolução Industrial, iniciada na Inglaterra no século XVIII, transformou profundamente o espaço urbano e as relações de trabalho. Uma consequência social desse processo foi",
+              "gabarito": "B",
+              "comentario": "A industrialização atraiu trabalhadores do campo para as cidades, gerando crescimento urbano desordenado, jornadas longas e moradias precárias. O ludismo (destruição de máquinas) foi uma reação dos trabalhadores, não uma política patronal. As demais alternativas negam a urbanização ou inventam medidas inexistentes.",
+              "alternativas": {
+                "A": "redução imediata da jornada de trabalho e criação do salário mínimo em toda a Europa.",
+                "B": "crescimento acelerado das cidades, com habitação precária e longas jornadas nas fábricas.",
+                "C": "retorno da população ao campo, em razão da mecanização agrícola.",
+                "D": "fortalecimento das corporações de ofício medievais.",
+                "E": "distribuição igualitária dos lucros industriais entre operários e proprietários."
+              }
+            },
+            {
+              "codigo": "q-hst-08",
+              "banca": "UEL",
+              "fonte": "Autoral — padrão UEL",
+              "autoral": true,
+              "dificuldade": "dificil",
+              "enunciado": "A independência do Haiti, em 1804, diferenciou-se dos demais processos de independência da América Latina porque",
+              "gabarito": "D",
+              "comentario": "No Haiti, a luta foi conduzida por pessoas escravizadas e resultou na abolição da escravidão e na criação do primeiro Estado negro independente da América. Nos demais processos, as elites criollas mantiveram a estrutura escravista e a desigualdade social.",
+              "alternativas": {
+                "A": "foi liderada pela elite criolla e manteve intacta a escravidão.",
+                "B": "ocorreu sem qualquer participação popular ou de pessoas escravizadas.",
+                "C": "resultou na anexação do território aos Estados Unidos.",
+                "D": "foi conduzida por pessoas escravizadas e aboliu a escravidão no novo país.",
+                "E": "foi um movimento exclusivamente indígena, sem relação com a França."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "hst-era-vargas",
+          "titulo": "Era Vargas (1930–1945)",
+          "resumo": "Centralização política, legislação trabalhista, industrialização e propaganda: como Vargas reorganizou o Estado brasileiro.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Revolução de 1930 ao Estado Novo",
+              "arquivo": "aulas/hist-era-vargas.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-hst-var-01",
+              "frente": "Quais são as três fases da Era Vargas?",
+              "verso": "Governo Provisório (1930–1934), Governo Constitucional (1934–1937) e Estado Novo (1937–1945).",
+              "dica": "Provisório, Constitucional, Estado Novo."
+            },
+            {
+              "codigo": "fc-hst-var-02",
+              "frente": "O que foi o DIP no Estado Novo?",
+              "verso": "Departamento de Imprensa e Propaganda: censurava opositores e construía a imagem de Vargas como pai dos pobres, usando rádio, cinema e cartazes.",
+              "dica": "Propaganda + censura."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-hst-09",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "Durante o Estado Novo (1937–1945), o governo brasileiro combinou investimentos em indústria de base com forte controle político. Uma característica desse período foi",
+              "gabarito": "C",
+              "comentario": "O Estado Novo foi ditatorial: fechou o Congresso, censurou a imprensa e perseguiu opositores, ao mesmo tempo que criou a Companhia Siderúrgica Nacional e valorizou a industrialização. A CLT é de 1943, mas o voto secreto e a justiça eleitoral são de 1932–1934, e a Constituinte de 1988 é muito posterior.",
+              "alternativas": {
+                "A": "ampla liberdade de imprensa e pluripartidarismo.",
+                "B": "eliminação completa da intervenção do Estado na economia.",
+                "C": "censura política e incentivo estatal à industrialização.",
+                "D": "convocação de uma Assembleia Constituinte para redigir a Constituição de 1988.",
+                "E": "extensão dos direitos trabalhistas a todos os trabalhadores rurais."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "hst-guerra-fria-ditadura",
+          "titulo": "Guerra Fria e Ditadura Militar no Brasil",
+          "resumo": "Bipolaridade, corrida armamentista e os 21 anos de regime militar: AI-5, milagre econômico, censura e redemocratização.",
+          "dificuldade": "dificil",
+          "fase": 2,
+          "aulas": [
+            {
+              "titulo": "Da bipolaridade ao AI-5",
+              "arquivo": "aulas/hist-guerra-fria-ditadura.md",
+              "duracaoMin": 24
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-hst-gf-01",
+              "frente": "O que foi a Doutrina Truman?",
+              "verso": "Política dos EUA (1947) de contenção do comunismo, com ajuda econômica e militar a países ameaçados pela influência soviética.",
+              "dica": "Contenção do comunismo."
+            },
+            {
+              "codigo": "fc-hst-gf-02",
+              "frente": "O que foi o milagre econômico brasileiro?",
+              "verso": "Crescimento acelerado do PIB entre 1968 e 1973, com inflação controlada, mas financiado por dívida externa, concentração de renda e arrocho salarial.",
+              "dica": "Cresceu, mas concentrou renda e endividou o país."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-hst-10",
+              "banca": "FUVEST",
+              "fonte": "Autoral — padrão FUVEST",
+              "autoral": true,
+              "dificuldade": "dificil",
+              "enunciado": "O chamado milagre econômico brasileiro (1968–1973) foi marcado por altas taxas de crescimento do PIB e por propaganda oficial. Uma crítica frequente a esse período aponta que o crescimento",
+              "gabarito": "B",
+              "comentario": "O crescimento foi financiado por capital externo e acompanhado de concentração de renda, arrocho salarial e aumento da dívida. A inflação não era zero, e a abertura política só ocorreu na segunda metade dos anos 1970. As demais alternativas invertem os efeitos distributivos do período.",
+              "alternativas": {
+                "A": "foi acompanhado de distribuição igualitária da renda e redução da dívida externa.",
+                "B": "dependeu de endividamento externo e ampliou a concentração de renda.",
+                "C": "eliminou a inflação e universalizou o acesso à terra.",
+                "D": "ocorreu sem qualquer participação do Estado na economia.",
+                "E": "foi resultado exclusivo da reforma agrária realizada em 1964."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "geografia",
+      "nome": "Geografia",
+      "area": "Ciências Humanas",
+      "cor": "#FF4D5E",
+      "prioridade": 1,
+      "ordem": 2,
+      "descricao": "Urbanização, campo, clima e geopolítica: leitura do espaço brasileiro e mundial com dados e conceitos que o ENEM cobra em gráficos.",
+      "topicos": [
+        {
+          "slug": "geo-urbanizacao",
+          "titulo": "Urbanização brasileira e problemas urbanos",
+          "resumo": "Êxodo rural, metropolização, periferização, segregação socioespacial e os desafios de mobilidade e saneamento.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Como o Brasil se tornou urbano",
+              "arquivo": "aulas/geo-urbanizacao.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-geo-urb-01",
+              "frente": "O que é conurbação?",
+              "verso": "União do tecido urbano de municípios vizinhos, formando uma mancha contínua. É a base das regiões metropolitanas.",
+              "dica": "Cidades que se encontram fisicamente."
+            },
+            {
+              "codigo": "fc-geo-urb-02",
+              "frente": "Por que a urbanização brasileira foi acelerada e desordenada?",
+              "verso": "Industrialização concentrada no Sudeste atraiu trabalhadores do campo sem política habitacional ou de planejamento, gerando periferização e favelas.",
+              "dica": "Indústria atraiu, Estado não planejou."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-geo-01",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Entre 1950 e 1980, a população urbana brasileira cresceu muito mais que a rural. Esse processo esteve associado, entre outros fatores, à",
+              "gabarito": "A",
+              "comentario": "A industrialização concentrada nas cidades atraiu mão de obra, enquanto a mecanização do campo e a concentração fundiária expulsaram trabalhadores rurais. O resultado foi urbanização rápida sem planejamento suficiente, com periferização e déficit habitacional.",
+              "alternativas": {
+                "A": "industrialização concentrada nas cidades e expulsão de trabalhadores do campo.",
+                "B": "reforma agrária que fixou a população no meio rural.",
+                "C": "declínio da atividade industrial e retorno ao campo.",
+                "D": "política habitacional que garantiu moradia a todos os migrantes.",
+                "E": "redução das desigualdades regionais entre campo e cidade."
+              }
+            },
+            {
+              "codigo": "q-geo-02",
+              "banca": "UNICAMP",
+              "fonte": "Autoral — padrão UNICAMP",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "A periferização das grandes cidades brasileiras, com ocupação de áreas distantes e ambientalmente frágeis, está relacionada principalmente à",
+              "gabarito": "D",
+              "comentario": "O preço da terra e a especulação imobiliária empurram a população de baixa renda para as bordas da cidade, muitas vezes em encostas, várzeas e áreas sem saneamento. Isso produz segregação socioespacial e aumenta a vulnerabilidade a deslizamentos e enchentes.",
+              "alternativas": {
+                "A": "oferta abundante de moradia popular bem localizada.",
+                "B": "planejamento urbano que distribuiu equipamentos públicos de forma equitativa.",
+                "C": "queda do preço da terra nas áreas centrais.",
+                "D": "especulação imobiliária e valorização das áreas centrais.",
+                "E": "política de transporte que priorizou a bicicleta nas periferias."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "geo-agraria",
+          "titulo": "Geografia agrária e conflitos no campo",
+          "resumo": "Concentração fundiária, agricultura familiar, agronegócio, fronteira agrícola e disputas por terra, água e território.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Terra, produção e conflito no Brasil",
+              "arquivo": "aulas/geo-agraria.md",
+              "duracaoMin": 22
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-geo-agr-01",
+              "frente": "Qual foi o efeito da Lei de Terras de 1850?",
+              "verso": "Passou a exigir compra e registro para aquisição de terras devolutas, dificultando o acesso de pobres e imigrantes e reforçando a concentração fundiária.",
+              "dica": "Terra passou a ser mercadoria, não posse livre."
+            },
+            {
+              "codigo": "fc-geo-agr-02",
+              "frente": "Qual a importância da agricultura familiar no abastecimento?",
+              "verso": "É responsável por parcela significativa dos alimentos básicos consumidos no país (feijão, mandioca, hortaliças, leite), apesar de ocupar menor área que o agronegócio.",
+              "dica": "Muita comida, pouca área."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-geo-03",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "A Lei de Terras de 1850 é frequentemente lembrada como um marco da concentração fundiária no Brasil porque",
+              "gabarito": "B",
+              "comentario": "Ao condicionar o acesso à terra à compra e ao registro, a lei excluiu negros libertos, pobres livres e muitos imigrantes, consolidando o poder dos grandes proprietários. Ela não criou a reforma agrária nem limitou o latifúndio; ao contrário, legalizou a apropriação privada da terra.",
+              "alternativas": {
+                "A": "determinou a divisão dos latifúndios em pequenas propriedades.",
+                "B": "dificultou o acesso à terra por pobres e imigrantes ao exigir compra e registro.",
+                "C": "aboliu a escravidão e distribuiu terras aos libertos.",
+                "D": "proibiu a venda de terras e criou reservas indígenas.",
+                "E": "estimulou a ocupação de terras por posseiros sem qualquer controle."
+              }
+            },
+            {
+              "codigo": "q-geo-04",
+              "banca": "UNESP",
+              "fonte": "Autoral — padrão UNESP",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "A expansão da fronteira agrícola no Cerrado nas últimas décadas foi viabilizada por investimentos em tecnologia, correção do solo e infraestrutura. Um efeito socioambiental desse avanço é",
+              "gabarito": "C",
+              "comentario": "A expansão agrícola no Cerrado aumentou a produção de commodities, mas pressionou áreas de vegetação nativa, recursos hídricos e territórios de comunidades tradicionais. Não houve redução da concentração fundiária nem recuperação generalizada do bioma.",
+              "alternativas": {
+                "A": "redução da concentração de terras e fortalecimento da agricultura familiar.",
+                "B": "recuperação integral da vegetação nativa do Cerrado.",
+                "C": "pressão sobre o bioma, os recursos hídricos e territórios tradicionais.",
+                "D": "abandono das técnicas de irrigação e da mecanização.",
+                "E": "diminuição da produção de soja e milho no Centro-Oeste."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "geo-clima-dominios",
+          "titulo": "Clima, massas de ar e domínios morfoclimáticos",
+          "resumo": "Elementos e fatores do clima, massas de ar que atuam no Brasil, biomas e fenômenos como El Niño e ilhas de calor.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "O clima brasileiro em mapas e gráficos",
+              "arquivo": "aulas/geo-clima.md",
+              "duracaoMin": 22
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-geo-cli-01",
+              "frente": "Qual massa de ar leva umidade da Amazônia ao Sudeste?",
+              "verso": "A massa Equatorial Continental (mEc), quente e úmida, responsável pelos corredores de umidade e pelas chuvas de verão.",
+              "dica": "Nasce na Amazônia e viaja para o Sudeste."
+            },
+            {
+              "codigo": "fc-geo-cli-02",
+              "frente": "O que caracteriza o domínio da caatinga?",
+              "verso": "Clima semiárido, chuvas irregulares, vegetação xerófila e rios intermitentes. É um bioma exclusivamente brasileiro.",
+              "dica": "Semiárido não é deserto."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-geo-05",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "O semiárido brasileiro é frequentemente confundido com um deserto. Essa confusão é incorreta porque o semiárido",
+              "gabarito": "A",
+              "comentario": "O semiárido tem chuvas concentradas em poucos meses e longos períodos secos, mas não a aridez extrema de um deserto. A caatinga é um bioma adaptado a essa sazonalidade, com vegetação xerófila e rios intermitentes.",
+              "alternativas": {
+                "A": "apresenta chuvas concentradas em uma estação e vegetação adaptada à seca.",
+                "B": "recebe chuvas todos os dias do ano, com vegetação de floresta densa.",
+                "C": "possui temperaturas negativas no inverno e neve frequente.",
+                "D": "é coberto por floresta tropical úmida e rios perenes.",
+                "E": "tem clima equatorial, sem estação seca definida."
+              }
+            },
+            {
+              "codigo": "q-geo-06",
+              "banca": "UFLA",
+              "fonte": "Autoral — padrão UFLA",
+              "autoral": true,
+              "dificuldade": "dificil",
+              "enunciado": "Em grandes metrópoles, a substituição da vegetação por asfalto e concreto tende a elevar as temperaturas locais. Esse fenômeno, conhecido como ilha de calor, é intensificado pela",
+              "gabarito": "D",
+              "comentario": "As superfícies impermeáveis absorvem calor e reduzem a evapotranspiração, enquanto a concentração de veículos e indústrias aumenta a emissão de calor. A arborização e a permeabilidade do solo ajudam a mitigar o efeito. As demais alternativas invertem causas e soluções.",
+              "alternativas": {
+                "A": "ampliação de parques e corredores verdes.",
+                "B": "redução da impermeabilização do solo.",
+                "C": "aumento da evapotranspiração nas áreas centrais.",
+                "D": "impermeabilização do solo e concentração de fontes de calor.",
+                "E": "diminuição da circulação de veículos nas vias."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "geo-globalizacao",
+          "titulo": "Globalização, blocos econômicos e geopolítica",
+          "resumo": "Divisão internacional do trabalho, transnacionais, blocos econômicos e a disputa por hegemonia entre EUA, China e potências regionais.",
+          "dificuldade": "dificil",
+          "fase": 2,
+          "aulas": [
+            {
+              "titulo": "Fluxos, redes e poder mundial",
+              "arquivo": "aulas/geo-globalizacao.md",
+              "duracaoMin": 24
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-geo-glo-01",
+              "frente": "O que é a divisão internacional do trabalho?",
+              "verso": "Repartição das etapas produtivas entre países: centros tecnológicos controlam pesquisa e marcas; periferias fornecem matérias-primas e mão de obra barata.",
+              "dica": "Quem cria a tecnologia e quem monta o produto."
+            },
+            {
+              "codigo": "fc-geo-glo-02",
+              "frente": "Cite três blocos econômicos.",
+              "verso": "União Europeia (UE), Mercosul e USMCA (antigo Nafta). Há também BRICS, que não é bloco econômico formal, mas coalizão política.",
+              "dica": "UE, Mercosul, USMCA."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-geo-07",
+              "banca": "FUVEST",
+              "fonte": "Autoral — padrão FUVEST",
+              "autoral": true,
+              "dificuldade": "dificil",
+              "enunciado": "Empresas transnacionais frequentemente instalam etapas de montagem em países periféricos e mantêm pesquisa e desenvolvimento nas matrizes. Essa organização produtiva evidencia que a globalização",
+              "gabarito": "B",
+              "comentario": "A globalização fragmenta a produção em redes, mas concentra as atividades de maior valor agregado nos países centrais. Isso reproduz desigualdades tecnológicas e salariais, o que contraria a ideia de benefícios homogêneos.",
+              "alternativas": {
+                "A": "distribuiu de forma igualitária a tecnologia entre todos os países.",
+                "B": "fragmenta a produção, mas mantém a concentração das atividades de maior valor agregado.",
+                "C": "eliminou as fronteiras nacionais e os blocos econômicos.",
+                "D": "reduziu a importância das marcas e das patentes.",
+                "E": "acabou com a divisão internacional do trabalho."
+              }
+            },
+            {
+              "codigo": "q-geo-08",
+              "banca": "UEL",
+              "fonte": "Autoral — padrão UEL",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "O Mercosul é um bloco econômico sul-americano que, apesar de avanços na integração comercial, enfrenta limites. Uma característica do bloco é",
+              "gabarito": "C",
+              "comentario": "O Mercosul é uma união aduaneira com tarifa externa comum, mas com exceções e assimetrias entre os membros. Não adotou moeda única nem livre circulação plena de pessoas e mercadorias como a UE.",
+              "alternativas": {
+                "A": "adoção de uma moeda única, o peso sul-americano.",
+                "B": "eliminação total das barreiras alfandegárias e das assimetrias regionais.",
+                "C": "união aduaneira com tarifa externa comum, mas com exceções e assimetrias.",
+                "D": "restrição à participação de países produtores de commodities.",
+                "E": "proibição de acordos comerciais com países fora do bloco."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

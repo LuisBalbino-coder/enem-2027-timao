@@ -1,0 +1,574 @@
+{
+  "materias": [
+    {
+      "slug": "matematica",
+      "nome": "Matemática",
+      "area": "Matemática",
+      "cor": "#FFB703",
+      "prioridade": 2,
+      "ordem": 4,
+      "descricao": "Fundamentos de alto retorno na TRI: proporção, porcentagem, gráficos, estatística e geometria básica.",
+      "topicos": [
+        {
+          "slug": "mat-razao-proporcao",
+          "titulo": "Razão, proporção e regra de três",
+          "resumo": "Grandezas diretas e inversas, regra de três simples e composta, escalas e velocidade — a base de metade das questões de Matemática.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Regra de três sem decoreba",
+              "arquivo": "aulas/mat-proporcao.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-mat-pro-01",
+              "frente": "Quando usar regra de três inversa?",
+              "verso": "Quando aumentar uma grandeza diminui a outra (ex.: mais máquinas, menos dias). Multiplique em linha em vez de cruzar.",
+              "dica": "Mais de um, menos do outro."
+            },
+            {
+              "codigo": "fc-mat-pro-02",
+              "frente": "Como transformar escala 1:50.000 em distância real?",
+              "verso": "Multiplique a medida no mapa por 50.000 e converta para a unidade pedida. 1 cm no mapa = 50.000 cm = 0,5 km.",
+              "dica": "Escala é razão, não soma."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-mat-01",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Quatro impressoras idênticas, trabalhando no mesmo ritmo, produzem um lote de panfletos em 6 dias. Se forem utilizadas seis impressoras, nas mesmas condições, o mesmo lote será produzido em",
+              "gabarito": "B",
+              "comentario": "Trata-se de grandezas inversamente proporcionais: mais impressoras, menos dias. 4 × 6 = 24 impressora-dias; 24 ÷ 6 impressoras = 4 dias. A alternativa A (3 dias) resultaria de uma proporção direta incorreta.",
+              "alternativas": {
+                "A": "3 dias.",
+                "B": "4 dias.",
+                "C": "6 dias.",
+                "D": "8 dias.",
+                "E": "9 dias."
+              }
+            },
+            {
+              "codigo": "q-mat-02",
+              "banca": "UFLA",
+              "fonte": "Autoral — padrão UFLA",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Em um mapa de escala 1:50.000, a distância entre dois pontos é de 4 cm. A distância real entre eles, em quilômetros, é de",
+              "gabarito": "B",
+              "comentario": "4 cm × 50.000 = 200.000 cm. Como 1 km = 100.000 cm, o resultado é 2 km. O erro comum é esquecer a conversão e responder 200 km.",
+              "alternativas": {
+                "A": "0,2 km.",
+                "B": "2 km.",
+                "C": "20 km.",
+                "D": "200 km.",
+                "E": "5 km."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "mat-porcentagem-juros",
+          "titulo": "Porcentagem, descontos e juros",
+          "resumo": "Fator multiplicativo, aumentos e descontos sucessivos, juros simples e compostos — sem cair nas pegadinhas clássicas.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Porcentagem com fator multiplicativo",
+              "arquivo": "aulas/mat-porcentagem.md",
+              "duracaoMin": 18
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-mat-por-01",
+              "frente": "Como calcular um aumento de 20% usando fator?",
+              "verso": "Multiplique por 1,20. Um desconto de 20% multiplica por 0,80.",
+              "dica": "100% + 20% = 120% = 1,2."
+            },
+            {
+              "codigo": "fc-mat-por-02",
+              "frente": "Qual a diferença entre juros simples e compostos?",
+              "verso": "Juros simples incidem sempre sobre o capital inicial. Juros compostos incidem sobre o montante acumulado (juros sobre juros).",
+              "dica": "Composto = bola de neve."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-mat-03",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Uma loja oferece 15% de desconto sobre um produto que custa R$ 200,00. O valor final pago pelo cliente é de",
+              "gabarito": "C",
+              "comentario": "15% de 200 = 30 reais de desconto, portanto o cliente paga 170 reais. Também é possível multiplicar 200 × 0,85 = 170.",
+              "alternativas": {
+                "A": "R$ 150,00.",
+                "B": "R$ 160,00.",
+                "C": "R$ 170,00.",
+                "D": "R$ 180,00.",
+                "E": "R$ 185,00."
+              }
+            },
+            {
+              "codigo": "q-mat-04",
+              "banca": "UNESP",
+              "fonte": "Autoral — padrão UNESP",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "Um capital de R$ 1.000,00 é aplicado a juros simples de 2% ao mês durante 5 meses. O montante ao final do período será de",
+              "gabarito": "C",
+              "comentario": "Juros simples: J = C × i × t = 1000 × 0,02 × 5 = 100. Montante = 1000 + 100 = 1100. Se fossem juros compostos, o montante seria 1000 × 1,02^5 ≈ 1104,08.",
+              "alternativas": {
+                "A": "R$ 1.020,00.",
+                "B": "R$ 1.050,00.",
+                "C": "R$ 1.100,00.",
+                "D": "R$ 1.200,00.",
+                "E": "R$ 1.250,00."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "mat-graficos-estatistica",
+          "titulo": "Leitura de gráficos e estatística básica",
+          "resumo": "Média, mediana, moda, amplitude, porcentagem em tabelas e interpretação de eixos — o tipo de questão que mais aparece.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Como ler gráficos sem cair em armadilha",
+              "arquivo": "aulas/mat-graficos.md",
+              "duracaoMin": 18
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-mat-gra-01",
+              "frente": "Como calcular a mediana de um conjunto?",
+              "verso": "Ordene os valores e pegue o central. Se houver dois centrais, faça a média entre eles.",
+              "dica": "Mediana = valor do meio, após ordenar."
+            },
+            {
+              "codigo": "fc-mat-gra-02",
+              "frente": "O que a amplitude mostra?",
+              "verso": "A diferença entre o maior e o menor valor do conjunto. Indica a dispersão total, mas é sensível a valores extremos.",
+              "dica": "Maior menos menor."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-mat-05",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "As notas de um estudante em cinco avaliações foram: 5, 6, 7, 8 e 9. A mediana dessas notas é",
+              "gabarito": "C",
+              "comentario": "Os valores já estão em ordem crescente. O valor central é o terceiro: 7. A média seria 7 também, mas mediana e média são conceitos diferentes — em conjuntos com valores extremos, elas podem divergir.",
+              "alternativas": {
+                "A": "6.",
+                "B": "6,5.",
+                "C": "7.",
+                "D": "7,5.",
+                "E": "8."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "mat-geometria-plana",
+          "titulo": "Geometria plana e espacial essencial",
+          "resumo": "Áreas, perímetros, volumes, Teorema de Pitágoras e semelhança — o kit de fórmulas que resolve questões de contexto.",
+          "dificuldade": "medio",
+          "fase": 2,
+          "aulas": [
+            {
+              "titulo": "Fórmulas que realmente caem",
+              "arquivo": "aulas/mat-geometria.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-mat-geo-01",
+              "frente": "Qual a área de um círculo de raio r?",
+              "verso": "A = πr². O perímetro (circunferência) é C = 2πr. Cuidado para não trocar raio com diâmetro.",
+              "dica": "πr² para área, 2πr para contorno."
+            },
+            {
+              "codigo": "fc-mat-geo-02",
+              "frente": "Enuncie o Teorema de Pitágoras.",
+              "verso": "Em um triângulo retângulo, a² = b² + c², em que a é a hipotenusa e b e c são os catetos.",
+              "dica": "Hipotenusa ao quadrado = soma dos catetos ao quadrado."
+            }
+          ],
+          "questoes": []
+        }
+      ]
+    },
+    {
+      "slug": "linguagens",
+      "nome": "Linguagens",
+      "area": "Linguagens",
+      "cor": "#4CC9F0",
+      "prioridade": 3,
+      "ordem": 5,
+      "descricao": "Interpretação, figuras de linguagem, funções da linguagem e variação linguística — leitura estratégica para ganhar pontos rápidos.",
+      "topicos": [
+        {
+          "slug": "lin-interpretacao",
+          "titulo": "Interpretação de texto e inferência",
+          "resumo": "Ideia central, tese, argumento, coesão e as diferenças entre “está no texto” e “conclui-se do texto”.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Leitura estratégica para o ENEM",
+              "arquivo": "aulas/lin-interpretacao.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-lin-int-01",
+              "frente": "Qual a diferença entre informação explícita e inferência?",
+              "verso": "Explícita está escrita no texto. Inferência é concluída a partir de pistas do texto, sem estar literalmente dita.",
+              "dica": "Inferir = deduzir com base no texto."
+            },
+            {
+              "codigo": "fc-lin-int-02",
+              "frente": "O que é tese de um texto argumentativo?",
+              "verso": "É o ponto de vista central defendido pelo autor, sustentado por argumentos e exemplos.",
+              "dica": "É a opinião que o texto defende."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-lin-01",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "“Em plataformas digitais, notificações, vídeos curtos e recomendações competem pelo mesmo recurso escasso: o tempo de atenção do usuário. Cada minuto gasto em uma tela é um minuto que deixa de ser dedicado a outra atividade.” A partir do trecho, conclui-se que a chamada economia da atenção",
+              "gabarito": "C",
+              "comentario": "O texto apresenta a atenção como recurso escasso e disputado por diferentes estímulos digitais. Não afirma que a tecnologia é inútil nem que o usuário é passivo; a ênfase está na competição pelo tempo e nas escolhas que isso implica.",
+              "alternativas": {
+                "A": "defende que o tempo nas telas não afeta outras atividades.",
+                "B": "comprova que os usuários são totalmente passivos diante das plataformas.",
+                "C": "trata a atenção como recurso limitado e disputado economicamente.",
+                "D": "conclui que notificações devem ser proibidas por lei.",
+                "E": "afirma que vídeos curtos melhoraram a concentração dos jovens."
+              }
+            },
+            {
+              "codigo": "q-lin-02",
+              "banca": "FUVEST",
+              "fonte": "Autoral — padrão FUVEST",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Na frase “Meu coração é um deserto”, a figura de linguagem predominante é",
+              "gabarito": "B",
+              "comentario": "Há uma comparação implícita, sem conectivo, entre coração e deserto: isso é metáfora. A comparação explícita usaria “como” (“meu coração é como um deserto”). Metonímia seria substituir um termo por outro próximo; hipérbole seria exagero.",
+              "alternativas": {
+                "A": "metonímia.",
+                "B": "metáfora.",
+                "C": "hipérbole.",
+                "D": "eufemismo.",
+                "E": "antítese."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "lin-figuras-linguagem",
+          "titulo": "Figuras e funções da linguagem",
+          "resumo": "Metáfora, metonímia, ironia, antítese e as seis funções da linguagem, com exemplos de propaganda e literatura.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Reconhecendo figuras e funções",
+              "arquivo": "aulas/lin-figuras.md",
+              "duracaoMin": 18
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-lin-fig-01",
+              "frente": "Qual a diferença entre metáfora e metonímia?",
+              "verso": "Metáfora é comparação implícita (“seus olhos são estrelas”). Metonímia é troca por proximidade (“li Machado” em vez de “li a obra de Machado”).",
+              "dica": "Metáfora compara; metonímia substitui por relação."
+            },
+            {
+              "codigo": "fc-lin-fig-02",
+              "frente": "Quais são as seis funções da linguagem?",
+              "verso": "Referencial, emotiva, conativa, fática, metalinguística e poética.",
+              "dica": "RE-CON-FÁ-META-POÉ."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-lin-03",
+              "banca": "UNICAMP",
+              "fonte": "Autoral — padrão UNICAMP",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Em um anúncio publicitário, a frase “Compre agora! Últimas unidades!” evidencia a função da linguagem predominante, que é a",
+              "gabarito": "C",
+              "comentario": "O enunciado busca influenciar o comportamento do interlocutor, com verbos no imperativo e apelo direto: função conativa (ou apelativa). A função referencial informa; a emotiva expressa sentimentos; a fática testa o canal; a metalinguística fala sobre a própria linguagem.",
+              "alternativas": {
+                "A": "referencial.",
+                "B": "emotiva.",
+                "C": "conativa.",
+                "D": "fática.",
+                "E": "metalinguística."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "lin-generos-variacao",
+          "titulo": "Gêneros textuais e variação linguística",
+          "resumo": "Tipologias, esferas sociais, multimodalidade e preconceito linguístico — temas recorrentes nas questões de Linguagens.",
+          "dificuldade": "medio",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Gênero, suporte e variedade",
+              "arquivo": "aulas/lin-generos.md",
+              "duracaoMin": 18
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-lin-ger-01",
+              "frente": "O que é variação linguística?",
+              "verso": "Mudança natural da língua conforme região, grupo social, idade, contexto e situação de fala. Não existe variedade “certa” fora do contexto.",
+              "dica": "A língua varia com o lugar e com a situação."
+            },
+            {
+              "codigo": "fc-lin-ger-02",
+              "frente": "O que é preconceito linguístico?",
+              "verso": "Julgar uma variedade como inferior ou errada por razões sociais, e não linguísticas, desvalorizando quem a usa.",
+              "dica": "É preconceito social disfarçado de correção."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-lin-04",
+              "banca": "UEL",
+              "fonte": "Autoral — padrão UEL",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "A afirmação de que uma variedade popular da língua é “errada” ou “feia”, enquanto a variedade culta seria a única correta, revela uma atitude de",
+              "gabarito": "D",
+              "comentario": "A linguística mostra que todas as variedades têm regras e funcionam para seus falantes. Chamar uma variedade de errada por razões sociais é preconceito linguístico. A norma culta é importante para determinados contextos, mas não é a única forma válida de expressão.",
+              "alternativas": {
+                "A": "rigor científico, pois a norma culta é a única gramática existente.",
+                "B": "defesa da diversidade linguística e do respeito às variedades.",
+                "C": "comprovação de que a língua popular não possui regras.",
+                "D": "preconceito linguístico, que desvaloriza o falante por sua variedade.",
+                "E": "fenômeno exclusivo do português, sem equivalentes em outras línguas."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "ciencias-natureza",
+      "nome": "Ciências da Natureza",
+      "area": "Ciências da Natureza",
+      "cor": "#2EC4B6",
+      "prioridade": 3,
+      "ordem": 6,
+      "descricao": "Biologia, Física e Química essenciais: ecologia, cinemática e soluções, com foco em interpretação e fórmulas básicas.",
+      "topicos": [
+        {
+          "slug": "cn-ecologia",
+          "titulo": "Ecologia: energia, ciclos e impactos",
+          "resumo": "Cadeias alimentares, fluxo de energia, ciclos biogeoquímicos, relações ecológicas e poluição.",
+          "dificuldade": "facil",
+          "fase": 1,
+          "aulas": [
+            {
+              "titulo": "Fluxo de energia e ciclos da matéria",
+              "arquivo": "aulas/cn-ecologia.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-cn-eco-01",
+              "frente": "Por que a energia não cicla nos ecossistemas?",
+              "verso": "A energia entra pela fotossíntese e é dissipada como calor em cada nível trófico. A matéria, por outro lado, é reciclada pelos ciclos biogeoquímicos.",
+              "dica": "Energia flui e se perde; matéria circula."
+            },
+            {
+              "codigo": "fc-cn-eco-02",
+              "frente": "O que é bioacumulação?",
+              "verso": "Acúmulo de substâncias tóxicas (como metais pesados) nos organismos ao longo da cadeia alimentar, com concentração crescente nos níveis superiores.",
+              "dica": "Quanto mais alto o nível trófico, maior a concentração."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-cn-01",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Em uma cadeia alimentar, a energia luminosa é convertida em energia química pelos produtores e transferida aos consumidores. Uma característica do fluxo de energia nos ecossistemas é que ele",
+              "gabarito": "A",
+              "comentario": "O fluxo de energia é unidirecional: entra pela fotossíntese, passa pelos níveis tróficos e é dissipado como calor na respiração. A matéria, ao contrário, é reciclada pelos decompositores e pelos ciclos biogeoquímicos.",
+              "alternativas": {
+                "A": "é unidirecional e sofre perdas na forma de calor a cada nível trófico.",
+                "B": "é cíclico, retornando integralmente aos produtores.",
+                "C": "aumenta de tamanho a cada nível trófico.",
+                "D": "independe da fotossíntese e dos decompositores.",
+                "E": "é maior nos consumidores terciários do que nos produtores."
+              }
+            },
+            {
+              "codigo": "q-cn-02",
+              "banca": "UNESP",
+              "fonte": "Autoral — padrão UNESP",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "Metais pesados lançados em rios podem se acumular em organismos aquáticos e atingir concentrações maiores nos predadores de topo. Esse fenômeno é explicado pela",
+              "gabarito": "C",
+              "comentario": "A bioacumulação ocorre porque substâncias não degradáveis são incorporadas pelos organismos e transferidas ao longo da cadeia, concentrando-se nos níveis tróficos superiores. Isso afeta a saúde humana quando esses organismos são consumidos.",
+              "alternativas": {
+                "A": "diluição dos poluentes ao longo da cadeia alimentar.",
+                "B": "eliminação completa dos metais pelos decompositores.",
+                "C": "bioacumulação ao longo dos níveis tróficos.",
+                "D": "fotossíntese realizada pelos consumidores.",
+                "E": "redução da concentração de toxinas nos predadores."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "cn-cinematica",
+          "titulo": "Cinemática: movimento, velocidade e aceleração",
+          "resumo": "MRU, MRUV, gráficos, queda livre e conversão de unidades — a Física que mais aparece em questões contextualizadas.",
+          "dificuldade": "medio",
+          "fase": 2,
+          "aulas": [
+            {
+              "titulo": "Movimento em linha reta",
+              "arquivo": "aulas/cn-cinematica.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-cn-cin-01",
+              "frente": "Como converter km/h em m/s?",
+              "verso": "Divida por 3,6. Exemplo: 72 km/h ÷ 3,6 = 20 m/s.",
+              "dica": "km/h → m/s: ÷ 3,6."
+            },
+            {
+              "codigo": "fc-cn-cin-02",
+              "frente": "Qual a fórmula da velocidade média?",
+              "verso": "vm = Δs / Δt, em que Δs é a variação de espaço e Δt é o intervalo de tempo.",
+              "dica": "Distância sobre tempo."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-cn-03",
+              "banca": "ENEM",
+              "fonte": "Autoral — padrão ENEM",
+              "autoral": true,
+              "dificuldade": "facil",
+              "enunciado": "Um carro mantém velocidade constante de 72 km/h em uma avenida. A distância percorrida em 5 segundos é de",
+              "gabarito": "C",
+              "comentario": "72 km/h ÷ 3,6 = 20 m/s. Em 5 s, Δs = 20 × 5 = 100 m. O erro comum é usar 72 diretamente com segundos, sem converter a unidade.",
+              "alternativas": {
+                "A": "20 m.",
+                "B": "72 m.",
+                "C": "100 m.",
+                "D": "360 m.",
+                "E": "720 m."
+              }
+            },
+            {
+              "codigo": "q-cn-04",
+              "banca": "UFLA",
+              "fonte": "Autoral — padrão UFLA",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "Um objeto é abandonado do repouso em queda livre, desprezando a resistência do ar (g = 10 m/s²). Após 3 segundos, sua velocidade é de",
+              "gabarito": "B",
+              "comentario": "Na queda livre, v = g × t = 10 × 3 = 30 m/s. A distância percorrida seria d = ½gt² = 45 m. Não confunda velocidade com distância.",
+              "alternativas": {
+                "A": "10 m/s.",
+                "B": "30 m/s.",
+                "C": "45 m/s.",
+                "D": "90 m/s.",
+                "E": "3 m/s."
+              }
+            }
+          ]
+        },
+        {
+          "slug": "cn-quimica-solucoes",
+          "titulo": "Soluções, concentração e pH",
+          "resumo": "Concentração, diluição, mistura de soluções, ácidos e bases — com foco em cálculo simples e interpretação.",
+          "dificuldade": "medio",
+          "fase": 2,
+          "aulas": [
+            {
+              "titulo": "Concentração e diluição sem susto",
+              "arquivo": "aulas/cn-solucoes.md",
+              "duracaoMin": 20
+            }
+          ],
+          "flashcards": [
+            {
+              "codigo": "fc-cn-sol-01",
+              "frente": "O que muda ao diluir uma solução?",
+              "verso": "O volume aumenta e a concentração diminui, mas a quantidade de soluto permanece a mesma. Use C1V1 = C2V2.",
+              "dica": "Soluto constante; volume maior."
+            },
+            {
+              "codigo": "fc-cn-sol-02",
+              "frente": "Como interpretar pH 3?",
+              "verso": "Solução ácida, com concentração de H+ igual a 10^-3 mol/L. Quanto menor o pH, mais ácida a solução.",
+              "dica": "pH baixo = mais H+ = ácido."
+            }
+          ],
+          "questoes": [
+            {
+              "codigo": "q-cn-05",
+              "banca": "UNICAMP",
+              "fonte": "Autoral — padrão UNICAMP",
+              "autoral": true,
+              "dificuldade": "medio",
+              "enunciado": "100 mL de uma solução de concentração 0,2 mol/L são diluídos com água até o volume final de 500 mL. A concentração final da solução é de",
+              "gabarito": "B",
+              "comentario": "Na diluição, C1V1 = C2V2: 0,2 × 100 = C2 × 500, logo C2 = 20/500 = 0,04 mol/L. A quantidade de soluto não muda; apenas o volume aumenta.",
+              "alternativas": {
+                "A": "0,02 mol/L.",
+                "B": "0,04 mol/L.",
+                "C": "0,10 mol/L.",
+                "D": "0,20 mol/L.",
+                "E": "1,00 mol/L."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
