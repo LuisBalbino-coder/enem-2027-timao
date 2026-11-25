@@ -51,6 +51,9 @@ fase 3 (data alvo simulada) bloqueou 22 de 23 tópicos, liberando apenas o tema 
 fácil; o sábado recebeu um simulado de 20 questões tipado como `simulado`, inclusive com 24/24 aulas
 concluídas; a virada para a fase 3 no meio da semana não agendou aula nova. O banco principal não foi tocado.
 
+**Testes automatizados:** `mvn test` cobre prioridade difícil/média, simulado de sábado, fila vazia e a
+virada de fase no gerador de cronograma (JUnit 5, sem banco).
+
 ---
 
 ## Fase 3 — Flashcards com repetição espaçada 🔜

@@ -182,6 +182,7 @@ cd enem-2027-timao
 
 - Requisitos já instalados nesta máquina: `~/.local/opt/jdk-21`, `~/.local/opt/maven`.
 - `./rodar.sh` já recompila quando há fonte mais novo que o jar. Para forçar: `mvn -q -DskipTests package`.
+- Testes do cronograma: `mvn test` (JUnit 5), cobrindo fase 2, simulado de sábado, fila vazia e virada de fase.
 - Banco: `data/enem2027.mv.db`. Para recriar do zero, pare o servidor e apague a pasta `data/`.
 - Porta alternativa: `PORT=8080 ./rodar.sh`.
 
