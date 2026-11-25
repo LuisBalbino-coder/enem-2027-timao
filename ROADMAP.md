@@ -47,6 +47,10 @@ cronograma de 7 dias intercalando História, Geografia, Redação, Matemática e
 de aula persistida e refletida no dashboard (0% → 20% em História); +15 min gravado e mantido após reload;
 fase 3 (data alvo simulada) bloqueou 22 de 23 tópicos, liberando apenas o tema já estudado; console sem erros.
 
+**Revisão em 25/11/2026:** em banco temporário, a fase 2 escolheu 2 temas difíceis e 4 médios, nenhum
+fácil; o sábado recebeu um simulado de 20 questões tipado como `simulado`, inclusive com 24/24 aulas
+concluídas; a virada para a fase 3 no meio da semana não agendou aula nova. O banco principal não foi tocado.
+
 ---
 
 ## Fase 3 — Flashcards com repetição espaçada 🔜

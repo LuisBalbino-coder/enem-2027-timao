@@ -1037,6 +1037,13 @@
       ? `<div class="semana">${estado.cronograma.dias.map(diaPlanoHtml).join("")}</div>
          <p class="observacao-plano">${escapar(estado.cronograma.observacao)}</p>`
       : '<p class="filtro-vazio">Cronograma indisponível no momento.</p>';
+    const resumoPlano = !estado.cronograma
+      ? ""
+      : estado.cronograma.bloqueioNovo
+        ? "Conteúdo novo bloqueado"
+        : estado.cronograma.fase === 2
+          ? "Temas médios/difíceis + simulado no sábado"
+          : "Uma aula por dia + questões";
 
     $("#view-calendario").innerHTML = `
       <div class="calendario-topo">
@@ -1077,7 +1084,7 @@
       <section class="secao">
         <div class="secao-topo">
           <h2>Seu plano para os próximos 7 dias</h2>
-          <p>${estado.cronograma && estado.cronograma.bloqueioNovo ? "Conteúdo novo bloqueado" : "Uma aula por dia + questões"}</p>
+          <p>${resumoPlano}</p>
         </div>
         ${semana}
       </section>
@@ -1188,6 +1195,11 @@
       fecharConfig();
       toast("Configurações salvas.");
       await recarregarPainel();
+      estado.calendario = null;
+      estado.mesCalendario = estado.dashboard.hoje.slice(0, 7);
+      if (estado.view === "calendario") {
+        await carregarCalendario(estado.mesCalendario);
+      }
     } catch (falha) {
       erro.textContent = falha.message;
       erro.classList.remove("oculto");

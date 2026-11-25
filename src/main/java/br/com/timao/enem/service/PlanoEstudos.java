@@ -39,25 +39,25 @@ public final class PlanoEstudos {
         List<Fila> filas = montarFilas(pendentes, fase);
         int questoesPorDia = Math.max(5, Math.min(20, metaQuestoes / 2));
 
-        List<Payloads.AulaPlano> revisar = new ArrayList<>();
-        if (bloqueio) {
-            Map<Integer, Payloads.AulaPlano> vistos = new LinkedHashMap<>();
-            for (Payloads.AulaPlano aula : aulas) {
-                if (aula.concluida()) {
-                    vistos.putIfAbsent(aula.topicoId(), aula);
-                }
+        Map<Integer, Payloads.AulaPlano> vistos = new LinkedHashMap<>();
+        for (Payloads.AulaPlano aula : aulas) {
+            if (aula.concluida()) {
+                vistos.putIfAbsent(aula.topicoId(), aula);
             }
-            revisar.addAll(vistos.values());
         }
+        List<Payloads.AulaPlano> revisar = new ArrayList<>(vistos.values());
 
         for (int i = 0; i < 7; i++) {
             LocalDate data = hoje.plusDays(i);
+            int faseDia = Calendario.numeroFase(data, alvo);
+            boolean bloqueioDia = faseDia >= 3;
             List<Payloads.Tarefa> tarefas = new ArrayList<>();
             String tipo;
             String titulo;
             String foco = "Geral";
+            Payloads.AulaPlano aula = null;
 
-            if (bloqueio) {
+            if (bloqueioDia) {
                 tipo = "revisao";
                 if (revisar.isEmpty()) {
                     titulo = "Revisão dos seus resumos";
@@ -88,7 +88,7 @@ public final class PlanoEstudos {
                 }
                 tarefas.add(questoes("Refazer questões erradas", "Geral", null, metaQuestoes));
             } else {
-                Payloads.AulaPlano aula = proxima(filas);
+                aula = proxima(filas);
                 if (aula == null) {
                     tipo = "revisao";
                     titulo = "Revisão e questões";
@@ -105,11 +105,16 @@ public final class PlanoEstudos {
                             aula.topicoSlug(), aula.materia(), aula.materiaSlug(), aula.duracaoMin(), null));
                     tarefas.add(questoes("Questões de " + aula.materia(), aula.materia(),
                             aula.materiaSlug(), questoesPorDia));
-                    if (data.getDayOfWeek() == DayOfWeek.SATURDAY && fase == 2) {
-                        tipo = "simulado";
-                        tarefas.add(questoes("Simulado cronometrado", "Geral", null, 20));
-                    }
                 }
+            }
+
+            if (faseDia == 2 && data.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                tipo = "simulado";
+                if (aula == null) {
+                    titulo = "Simulado e revisão";
+                    foco = "Simulado";
+                }
+                tarefas.add(simulado(20));
             }
 
             int minutos = 0;
@@ -169,6 +174,11 @@ public final class PlanoEstudos {
 
     private static Payloads.Tarefa questoes(String titulo, String materia, String materiaSlug, int quantidade) {
         return new Payloads.Tarefa("questoes", null, titulo, null, null, materia, materiaSlug, null, quantidade);
+    }
+
+    private static Payloads.Tarefa simulado(int quantidade) {
+        return new Payloads.Tarefa("simulado", null, "Simulado cronometrado",
+                null, null, "Geral", null, null, quantidade);
     }
 
     private static int minutosDe(Payloads.Tarefa tarefa) {

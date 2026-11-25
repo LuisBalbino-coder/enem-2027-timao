@@ -158,10 +158,12 @@ O cronograma é **rolling**: sempre os próximos 7 dias a partir de hoje, recalc
   `peso / (agendados + 1)`, com peso **3** para História, Geografia e Redação, **2** para Matemática e
   **1** para Linguagens e Ciências da Natureza. Isso intercala prioridades sem abandonar as demais.
 - **Fase 2:** dentro de cada fila, temas difíceis e médios vêm primeiro; o sábado ganha um simulado
-  cronometrado de 20 questões.
+  cronometrado de 20 questões, mesmo que não haja aula pendente na fila.
 - **Domingo:** revisão de flashcards/resumos da semana e refaça de questões erradas.
 - **Fase 3:** nenhuma aula nova; o plano reveza apenas tópicos com aula concluída (resumo + flashcards)
   e questões. Sem histórico, cai em revisão geral de resumos e erros.
+- **Virada de fase:** a fase é recalculada para cada um dos 7 dias. Se a semana atravessar a reta final,
+  os dias seguintes já entram como revisão e não recebem aula nova.
 - **Progresso:** `aula_concluida` é a fonte da verdade; o dashboard calcula `concluidas/total` e o
   percentual de cada matéria direto do banco.
 - **Meta:** cada sessão grava `data`, `minutos` e `tipo` em `sessao_estudo`; a meta do dia soma as
