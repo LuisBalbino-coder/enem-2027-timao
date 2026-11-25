@@ -72,6 +72,7 @@ def montar_snapshot() -> dict:
 def gerar_index() -> str:
     html = (PUBLICO / "index.html").read_text(encoding="utf-8")
     html = html.replace('href="/styles.css"', 'href="styles.css"')
+    html = html.replace('  <script src="/backup-core.js"></script>', '  <script src="backup-core.js"></script>', 1)
     html = html.replace(
         '  <link rel="icon"',
         '  <link rel="manifest" href="manifest.webmanifest">\n  <link rel="icon"',
@@ -86,9 +87,11 @@ def gerar_index() -> str:
     )
     html = html.replace("carregar o conteúdo do banco", "carregar o conteúdo do site")
 
-    if 'href="/styles.css"' in html or 'src="/app.js"' in html:
+    if ('href="/styles.css"' in html or 'src="/app.js"' in html or
+            'src="/backup-core.js"' in html):
         raise RuntimeError("O index gerado ainda tem caminhos absolutos incompatíveis com o Pages.")
-    if "window.ENEM_ESTATICO" not in html or 'src="offline.js"' not in html:
+    if ("window.ENEM_ESTATICO" not in html or 'src="offline.js"' not in html or
+            'src="backup-core.js"' not in html):
         raise RuntimeError("O index gerado não ativou o modo estático.")
     return html
 
@@ -106,6 +109,7 @@ def main() -> int:
         shutil.rmtree(DOCS)
     (DOCS / "data").mkdir(parents=True)
 
+    shutil.copy2(PUBLICO / "backup-core.js", DOCS / "backup-core.js")
     shutil.copy2(PUBLICO / "app.js", DOCS / "app.js")
     shutil.copy2(PUBLICO / "styles.css", DOCS / "styles.css")
     for nome in ("offline.js", "sw.js", "manifest.webmanifest", "icon.svg"):

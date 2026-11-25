@@ -1,9 +1,10 @@
-const CACHE = "enem-2027-timao-v5";
+const CACHE = "enem-2027-timao-v6";
 
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
+  "./backup-core.js",
   "./app.js",
   "./offline.js",
   "./manifest.webmanifest",
