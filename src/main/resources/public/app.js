@@ -222,6 +222,31 @@
         return;
       }
 
+      const baixar = evento.target.closest("[data-baixar-backup]");
+      if (baixar) {
+        evento.preventDefault();
+        baixarBackup();
+        return;
+      }
+
+      const importar = evento.target.closest("[data-importar-backup]");
+      if (importar) {
+        evento.preventDefault();
+        const entrada = $("#arquivo-backup");
+        if (entrada) {
+          entrada.value = "";
+          entrada.click();
+        }
+        return;
+      }
+
+      const adiar = evento.target.closest("[data-backup-depois]");
+      if (adiar) {
+        evento.preventDefault();
+        adiarBackup();
+        return;
+      }
+
       const mes = evento.target.closest("[data-mes]");
       if (mes) {
         evento.preventDefault();
@@ -310,6 +335,11 @@
     });
 
     document.addEventListener("change", (evento) => {
+      const arquivo = evento.target.closest("#arquivo-backup");
+      if (arquivo) {
+        importarBackupArquivo(arquivo.files && arquivo.files[0]);
+        return;
+      }
       const filtro = evento.target.closest("[data-filtro]");
       if (!filtro) return;
       estado.filtros[filtro.dataset.filtro] = filtro.value;
@@ -487,6 +517,8 @@
           Seu progresso fica salvo neste dispositivo e não sincroniza entre aparelhos.
         </p>
       </section>
+
+      ${htmlLembreteBackup()}
 
       <section class="secao">
         <div class="secao-topo">
@@ -1164,6 +1196,311 @@
       .format(new Date(ano, mes - 1, dia));
   }
 
+  // --------------------------------------------------------------- backup
+
+  const CHAVE_ESTADO = "enem2027:estado:v1";
+  const CHAVE_BACKUP = "enem2027:backup:v1";
+  const FORMATO_BACKUP = "enem-2027-timao-backup";
+  const VERSAO_BACKUP = 1;
+
+  function dataParaIso(data) {
+    return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
+  }
+
+  function hojeIsoLocal() {
+    return dataParaIso(new Date());
+  }
+
+  function dataIsoValida(texto) {
+    if (typeof texto !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(texto)) return false;
+    const [ano, mes, dia] = texto.split("-").map(Number);
+    const data = new Date(ano, mes - 1, dia);
+    return data.getFullYear() === ano && data.getMonth() === mes - 1 &&
+      data.getDate() === dia && ano >= 2020 && ano <= 2100;
+  }
+
+  function lerEstadoSalvo() {
+    try {
+      const bruto = JSON.parse(localStorage.getItem(CHAVE_ESTADO) || "null");
+      return bruto && typeof bruto === "object" && !Array.isArray(bruto) ? bruto : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function lerMetaBackup() {
+    try {
+      const meta = JSON.parse(localStorage.getItem(CHAVE_BACKUP) || "null");
+      return {
+        ultimoBackup: meta && typeof meta.ultimoBackup === "string" ? meta.ultimoBackup : null,
+        adiadoAte: meta && typeof meta.adiadoAte === "string" ? meta.adiadoAte : null
+      };
+    } catch (_) {
+      return { ultimoBackup: null, adiadoAte: null };
+    }
+  }
+
+  function salvarMetaBackup(meta) {
+    try {
+      localStorage.setItem(CHAVE_BACKUP, JSON.stringify({ versao: 1, ...meta }));
+    } catch (_) {
+      /* armazenamento indisponível */
+    }
+  }
+
+  function temProgresso() {
+    const dados = lerEstadoSalvo();
+    if (!dados) return false;
+    return (Array.isArray(dados.concluidas) && dados.concluidas.length > 0) ||
+      (Array.isArray(dados.sessoes) && dados.sessoes.length > 0);
+  }
+
+  function precisaLembreteBackup() {
+    if (!window.ENEM_ESTATICO || !temProgresso()) return false;
+    const meta = lerMetaBackup();
+    if (meta.adiadoAte && meta.adiadoAte >= hojeIsoLocal()) return false;
+    if (!meta.ultimoBackup) return true;
+    const ultimo = Date.parse(meta.ultimoBackup);
+    if (!Number.isFinite(ultimo)) return true;
+    return Date.now() - ultimo >= 7 * 24 * 60 * 60 * 1000;
+  }
+
+  function formatarDataHoraBackup(valor) {
+    const data = new Date(valor);
+    if (Number.isNaN(data.getTime())) return "data desconhecida";
+    return data.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  function htmlLembreteBackup() {
+    if (!precisaLembreteBackup()) return "";
+    const meta = lerMetaBackup();
+    const detalhe = meta.ultimoBackup
+      ? `Último backup: ${escapar(formatarDataHoraBackup(meta.ultimoBackup))}.`
+      : "Você ainda não fez nenhum backup.";
+    return `
+      <section class="secao">
+        <div class="cartao backup-lembrete">
+          <div>
+            <strong>Proteja seu progresso</strong>
+            <p>Ele fica somente neste navegador. ${detalhe} Baixe um arquivo JSON para restaurar aulas, minutos e configurações se limpar os dados ou trocar de aparelho.</p>
+          </div>
+          <div class="backup-lembrete-acoes">
+            <button class="botao" data-baixar-backup>Baixar backup</button>
+            <button class="link-secao" data-backup-depois>Lembrar depois</button>
+          </div>
+        </div>
+      </section>`;
+  }
+
+  function atualizarBackupConfig() {
+    const bloco = $("#backup-local");
+    if (!bloco) return;
+    bloco.classList.toggle("oculto", !window.ENEM_ESTATICO);
+    if (!window.ENEM_ESTATICO) return;
+
+    const meta = lerMetaBackup();
+    const ultimo = $("#backup-ultimo");
+    if (ultimo) {
+      ultimo.textContent = meta.ultimoBackup
+        ? `Último backup: ${formatarDataHoraBackup(meta.ultimoBackup)}.`
+        : "Nenhum backup feito ainda.";
+    }
+    const status = $("#backup-status");
+    if (status) {
+      status.textContent = "";
+      status.classList.add("oculto");
+      status.classList.remove("erro");
+    }
+  }
+
+  function mostrarStatusBackup(mensagem, erro) {
+    const alvo = $("#backup-status");
+    if (!alvo) return;
+    alvo.textContent = mensagem;
+    alvo.classList.remove("oculto");
+    alvo.classList.toggle("erro", Boolean(erro));
+  }
+
+  function validarBackup(backup) {
+    if (!backup || typeof backup !== "object" || Array.isArray(backup)) {
+      throw new Error("O arquivo não é um backup válido.");
+    }
+    if (backup.formato !== FORMATO_BACKUP) {
+      throw new Error("Este arquivo não foi gerado pelo ENEM 2027 Timão.");
+    }
+    if (Number(backup.versao) !== VERSAO_BACKUP) {
+      throw new Error("Versão de backup não reconhecida.");
+    }
+
+    const dados = backup.estado;
+    if (!dados || typeof dados !== "object" || Array.isArray(dados)) {
+      throw new Error("O backup não contém um estado válido.");
+    }
+    if (!Array.isArray(dados.concluidas) || dados.concluidas.length > 10000) {
+      throw new Error("Lista de aulas concluídas inválida.");
+    }
+    const concluidas = [];
+    for (const valor of dados.concluidas) {
+      const id = Number(valor);
+      if (!Number.isInteger(id) || id < 1 || id > 1000000) {
+        throw new Error("O backup contém uma aula inválida.");
+      }
+      concluidas.push(id);
+    }
+
+    if (!Array.isArray(dados.sessoes) || dados.sessoes.length > 100000) {
+      throw new Error("Lista de sessões inválida.");
+    }
+    const sessoes = dados.sessoes.map((sessao) => {
+      if (!sessao || typeof sessao !== "object" || Array.isArray(sessao)) {
+        throw new Error("O backup contém uma sessão inválida.");
+      }
+      if (!dataIsoValida(sessao.data)) {
+        throw new Error("O backup contém uma data de sessão inválida.");
+      }
+      const minutos = Number(sessao.minutos);
+      if (!Number.isInteger(minutos) || minutos < 5 || minutos > 600) {
+        throw new Error("O backup contém minutos inválidos.");
+      }
+      const tipo = sessao.tipo == null ? "estudo" : String(sessao.tipo).trim();
+      if (tipo.length > 80) {
+        throw new Error("O backup contém um tipo de sessão inválido.");
+      }
+      const descricao = sessao.descricao == null ? null : String(sessao.descricao).trim();
+      if (descricao && descricao.length > 500) {
+        throw new Error("O backup contém uma descrição muito longa.");
+      }
+      return { data: sessao.data, minutos, tipo: tipo || "estudo", descricao: descricao || null };
+    });
+
+    const config = dados.config;
+    if (!config || typeof config !== "object" || Array.isArray(config)) {
+      throw new Error("O backup não contém configurações válidas.");
+    }
+    if (!dataIsoValida(config.dataAlvo)) {
+      throw new Error("A data alvo do backup é inválida.");
+    }
+    const minutosMeta = Number(config.metaDiariaMinutos);
+    const questoesMeta = Number(config.metaQuestoesDia);
+    if (!Number.isInteger(minutosMeta) || minutosMeta < 15 || minutosMeta > 600) {
+      throw new Error("A meta de minutos do backup é inválida.");
+    }
+    if (!Number.isInteger(questoesMeta) || questoesMeta < 5 || questoesMeta > 200) {
+      throw new Error("A meta de questões do backup é inválida.");
+    }
+
+    return {
+      concluidas: [...new Set(concluidas)],
+      sessoes,
+      config: { dataAlvo: config.dataAlvo, metaDiariaMinutos: minutosMeta, metaQuestoesDia: questoesMeta }
+    };
+  }
+
+  function baixarBackup() {
+    if (!window.ENEM_ESTATICO) return;
+    try {
+      const salvo = lerEstadoSalvo();
+      const config = (salvo && salvo.config) || estado.config || {};
+      const dataAlvo = dataIsoValida(config.dataAlvo)
+        ? config.dataAlvo
+        : (estado.dashboard ? estado.dashboard.dataAlvo : "2027-11-07");
+      const minutosMeta = Number.isInteger(Number(config.metaDiariaMinutos))
+        ? Number(config.metaDiariaMinutos)
+        : (estado.dashboard ? estado.dashboard.meta.minutosMeta : 90);
+      const questoesMeta = Number.isInteger(Number(config.metaQuestoesDia))
+        ? Number(config.metaQuestoesDia)
+        : (estado.dashboard ? estado.dashboard.meta.questoesMeta : 20);
+
+      const backup = {
+        formato: FORMATO_BACKUP,
+        versao: VERSAO_BACKUP,
+        exportadoEm: new Date().toISOString(),
+        estado: {
+          concluidas: Array.isArray(salvo && salvo.concluidas) ? salvo.concluidas : [],
+          sessoes: Array.isArray(salvo && salvo.sessoes) ? salvo.sessoes : [],
+          config: {
+            dataAlvo,
+            metaDiariaMinutos: minutosMeta,
+            metaQuestoesDia: questoesMeta
+          }
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `enem-2027-timao-backup-${hojeIsoLocal()}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      const meta = lerMetaBackup();
+      meta.ultimoBackup = new Date().toISOString();
+      meta.adiadoAte = null;
+      salvarMetaBackup(meta);
+      atualizarBackupConfig();
+      if (estado.dashboard) renderPainel();
+      toast("Backup baixado. Guarde o arquivo em um lugar seguro.");
+    } catch (erro) {
+      mostrarStatusBackup("Não foi possível gerar o backup: " + erro.message, true);
+      toast("Não foi possível gerar o backup. Tente novamente.");
+    }
+  }
+
+  function importarBackupArquivo(arquivo) {
+    if (!arquivo || !window.ENEM_ESTATICO) return;
+    if (arquivo.size > 2 * 1024 * 1024) {
+      mostrarStatusBackup("O arquivo é grande demais. Use um backup gerado por este site.", true);
+      return;
+    }
+
+    const leitor = new FileReader();
+    leitor.onload = () => {
+      try {
+        const bruto = JSON.parse(String(leitor.result || ""));
+        const validado = validarBackup(bruto);
+        const atual = lerEstadoSalvo();
+        const temAtual = atual && (
+          (Array.isArray(atual.concluidas) && atual.concluidas.length > 0) ||
+          (Array.isArray(atual.sessoes) && atual.sessoes.length > 0)
+        );
+        if (temAtual && !window.confirm("Importar este backup substitui o progresso atual deste navegador. Deseja continuar?")) {
+          mostrarStatusBackup("Importação cancelada. Nada foi alterado.", false);
+          return;
+        }
+        localStorage.setItem(CHAVE_ESTADO, JSON.stringify(validado));
+        const meta = lerMetaBackup();
+        meta.ultimoBackup = new Date().toISOString();
+        meta.adiadoAte = null;
+        salvarMetaBackup(meta);
+        mostrarStatusBackup("Backup importado. Recarregando o progresso...", false);
+        setTimeout(() => window.location.reload(), 700);
+      } catch (erro) {
+        mostrarStatusBackup("Backup inválido: " + erro.message, true);
+      }
+    };
+    leitor.onerror = () => mostrarStatusBackup("Não foi possível ler o arquivo.", true);
+    leitor.readAsText(arquivo);
+  }
+
+  function adiarBackup() {
+    const meta = lerMetaBackup();
+    const data = new Date();
+    data.setDate(data.getDate() + 3);
+    meta.adiadoAte = dataParaIso(data);
+    salvarMetaBackup(meta);
+    if (estado.dashboard) renderPainel();
+    toast("Tudo bem. O lembrete de backup volta em 3 dias.");
+  }
+
   // ---------------------------------------------------------- configuração
 
   function abrirConfig() {
@@ -1173,6 +1510,7 @@
     $("#config-minutos").value = config.metaDiariaMinutos;
     $("#config-questoes").value = config.metaQuestoesDia;
     $("#config-erro").classList.add("oculto");
+    atualizarBackupConfig();
     $("#modal-config").classList.remove("oculto");
     $("#config-data").focus();
   }

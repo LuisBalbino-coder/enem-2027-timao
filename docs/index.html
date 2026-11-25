@@ -97,6 +97,18 @@
           <button type="submit" class="botao">Salvar</button>
         </div>
       </form>
+
+      <div class="backup-local oculto" id="backup-local">
+        <h3>Backup do progresso</h3>
+        <p>O progresso fica somente neste navegador. Baixe um arquivo JSON para guardar ou leve-o para outro aparelho.</p>
+        <p class="backup-ultimo" id="backup-ultimo">Nenhum backup feito ainda.</p>
+        <div class="backup-acoes">
+          <button type="button" class="botao" data-baixar-backup>Baixar backup</button>
+          <button type="button" class="botao-fantasma" data-importar-backup>Importar backup</button>
+          <input type="file" id="arquivo-backup" accept=".json,application/json" hidden>
+        </div>
+        <p class="backup-status oculto" id="backup-status" role="status"></p>
+      </div>
     </div>
   </div>
 
