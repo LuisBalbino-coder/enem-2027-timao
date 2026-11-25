@@ -247,6 +247,27 @@
         return;
       }
 
+      const mesclarBackup = evento.target.closest("[data-backup-mesclar]");
+      if (mesclarBackup) {
+        evento.preventDefault();
+        aplicarBackupPendente("mesclar");
+        return;
+      }
+
+      const substituirBackup = evento.target.closest("[data-backup-substituir]");
+      if (substituirBackup) {
+        evento.preventDefault();
+        aplicarBackupPendente("substituir");
+        return;
+      }
+
+      const cancelarBackup = evento.target.closest("[data-backup-cancelar]");
+      if (cancelarBackup) {
+        evento.preventDefault();
+        cancelarPreviaBackup();
+        return;
+      }
+
       const mes = evento.target.closest("[data-mes]");
       if (mes) {
         evento.preventDefault();
@@ -1203,6 +1224,8 @@
   const FORMATO_BACKUP = "enem-2027-timao-backup";
   const VERSAO_BACKUP = 1;
 
+  let backupPendente = null;
+
   function dataParaIso(data) {
     return `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
   }
@@ -1277,6 +1300,180 @@
     });
   }
 
+  function formatarMinutos(total) {
+    const minutos = Math.max(0, Number(total) || 0);
+    if (minutos < 60) return `${minutos} min`;
+    const horas = Math.floor(minutos / 60);
+    const resto = minutos % 60;
+    return resto ? `${horas} h ${resto} min` : `${horas} h`;
+  }
+
+  function totaisEstado(dados) {
+    const concluidas = new Set(
+      (Array.isArray(dados && dados.concluidas) ? dados.concluidas : [])
+        .map(Number)
+        .filter(Number.isInteger)
+    );
+    const sessoes = Array.isArray(dados && dados.sessoes) ? dados.sessoes : [];
+    const minutos = sessoes.reduce((soma, sessao) => soma + (Number(sessao && sessao.minutos) || 0), 0);
+    const datas = sessoes
+      .map((sessao) => sessao && sessao.data)
+      .filter(Boolean)
+      .sort();
+    return {
+      aulas: concluidas.size,
+      sessoes: sessoes.length,
+      minutos,
+      ultimaSessao: datas.length ? datas[datas.length - 1] : null
+    };
+  }
+
+  function chaveSessao(sessao) {
+    return [
+      sessao.data || "",
+      Number(sessao.minutos) || 0,
+      sessao.tipo || "estudo",
+      sessao.descricao || ""
+    ].join("|");
+  }
+
+  function mapaSessoes(sessoes) {
+    const mapa = new Map();
+    for (const sessao of sessoes) {
+      const chave = chaveSessao(sessao);
+      if (!mapa.has(chave)) mapa.set(chave, { sessao, quantidade: 0 });
+      mapa.get(chave).quantidade += 1;
+    }
+    return mapa;
+  }
+
+  function mesclarSessoes(atual, backup) {
+    const doAtual = mapaSessoes(atual);
+    const doBackup = mapaSessoes(backup);
+    const resultado = [];
+
+    for (const [chave, item] of doAtual) {
+      const quantidade = Math.max(item.quantidade, (doBackup.get(chave) || {}).quantidade || 0);
+      for (let i = 0; i < quantidade; i += 1) resultado.push(item.sessao);
+      doBackup.delete(chave);
+    }
+    for (const item of doBackup.values()) {
+      for (let i = 0; i < item.quantidade; i += 1) resultado.push(item.sessao);
+    }
+    return resultado;
+  }
+
+  function configBackupValida(config) {
+    return Boolean(config) &&
+      typeof config === "object" &&
+      !Array.isArray(config) &&
+      dataIsoValida(config.dataAlvo) &&
+      Number.isInteger(Number(config.metaDiariaMinutos)) &&
+      Number(config.metaDiariaMinutos) >= 15 &&
+      Number(config.metaDiariaMinutos) <= 600 &&
+      Number.isInteger(Number(config.metaQuestoesDia)) &&
+      Number(config.metaQuestoesDia) >= 5 &&
+      Number(config.metaQuestoesDia) <= 200;
+  }
+
+  function normalizarConfigBackup(config) {
+    return {
+      dataAlvo: config.dataAlvo,
+      metaDiariaMinutos: Number(config.metaDiariaMinutos),
+      metaQuestoesDia: Number(config.metaQuestoesDia)
+    };
+  }
+
+  function mesclarEstados(atual, backup) {
+    const base = atual && typeof atual === "object" ? atual : {};
+    const ids = new Set([
+      ...(Array.isArray(base.concluidas) ? base.concluidas : []).map(Number),
+      ...(Array.isArray(backup.concluidas) ? backup.concluidas : []).map(Number)
+    ]);
+    return {
+      concluidas: [...ids].filter(Number.isInteger),
+      sessoes: mesclarSessoes(
+        Array.isArray(base.sessoes) ? base.sessoes : [],
+        Array.isArray(backup.sessoes) ? backup.sessoes : []
+      ),
+      config: configBackupValida(base.config) ? normalizarConfigBackup(base.config) : backup.config
+    };
+  }
+
+  function mostrarPreviaBackup(resultado, arquivo) {
+    const atual = lerEstadoSalvo() || { concluidas: [], sessoes: [], config: resultado.estado.config };
+    const totalBackup = totaisEstado(resultado.estado);
+    const totalAtual = totaisEstado(atual);
+    const mesclado = mesclarEstados(atual, resultado.estado);
+    const totalMesclado = totaisEstado(mesclado);
+    const nome = arquivo && arquivo.name ? arquivo.name : "backup.json";
+    const dataBackup = resultado.exportadoEm ||
+      (arquivo && arquivo.lastModified ? new Date(arquivo.lastModified).toISOString() : null);
+
+    backupPendente = { resultado, mesclado };
+
+    const arquivoAlvo = $("#backup-previa-arquivo");
+    if (arquivoAlvo) {
+      arquivoAlvo.textContent = `${nome} · ${dataBackup ? "exportado em " + formatarDataHoraBackup(dataBackup) : "data de exportação não informada"}`;
+    }
+
+    const totais = $("#backup-totais");
+    if (totais) {
+      totais.innerHTML = `
+        <div><dt>Aulas concluídas</dt><dd>${totalBackup.aulas}</dd></div>
+        <div><dt>Sessões</dt><dd>${totalBackup.sessoes}</dd></div>
+        <div><dt>Tempo estudado</dt><dd>${formatarMinutos(totalBackup.minutos)}</dd></div>`;
+    }
+
+    const comparacao = $("#backup-comparacao");
+    if (comparacao) {
+      const atualTexto = totalAtual.aulas || totalAtual.sessoes
+        ? `Atual: ${totalAtual.aulas} aula(s), ${totalAtual.sessoes} sessão(ões), ${formatarMinutos(totalAtual.minutos)}.`
+        : "Não há progresso atual.";
+      comparacao.textContent = `${atualTexto} Depois de mesclar: ${totalMesclado.aulas} aula(s), ${totalMesclado.sessoes} sessão(ões), ${formatarMinutos(totalMesclado.minutos)} (+${totalMesclado.aulas - totalAtual.aulas} aulas, +${totalMesclado.sessoes - totalAtual.sessoes} sessões, +${totalMesclado.minutos - totalAtual.minutos} min). Ao mesclar, as configurações atuais serão mantidas.`;
+    }
+
+    const previa = $("#backup-previa");
+    if (previa) previa.classList.remove("oculto");
+    mostrarStatusBackup("Backup válido. Confira a prévia antes de escolher o que fazer.", false);
+  }
+
+  function aplicarBackupPendente(modo) {
+    if (!backupPendente) return;
+    if (modo === "substituir" && temProgresso() &&
+        !window.confirm("Substituir todo o progresso atual pelo conteúdo do backup? Esta ação não pode ser desfeita sem outro backup.")) {
+      mostrarStatusBackup("Importação cancelada. Nada foi alterado.", false);
+      return;
+    }
+
+    const estadoNovo = modo === "mesclar" ? backupPendente.mesclado : backupPendente.resultado.estado;
+    try {
+      localStorage.setItem(CHAVE_ESTADO, JSON.stringify(estadoNovo));
+      const meta = lerMetaBackup();
+      meta.ultimoBackup = new Date().toISOString();
+      meta.adiadoAte = null;
+      salvarMetaBackup(meta);
+      mostrarStatusBackup(
+        modo === "mesclar"
+          ? "Backup mesclado ao progresso atual. Recarregando..."
+          : "Backup restaurado. Recarregando...",
+        false
+      );
+      setTimeout(() => window.location.reload(), 700);
+    } catch (erro) {
+      mostrarStatusBackup("Não foi possível aplicar o backup: " + erro.message, true);
+    }
+  }
+
+  function cancelarPreviaBackup() {
+    backupPendente = null;
+    const previa = $("#backup-previa");
+    if (previa) previa.classList.add("oculto");
+    const entrada = $("#arquivo-backup");
+    if (entrada) entrada.value = "";
+    mostrarStatusBackup("Importação cancelada. Nada foi alterado.", false);
+  }
+
   function htmlLembreteBackup() {
     if (!precisaLembreteBackup()) return "";
     const meta = lerMetaBackup();
@@ -1311,6 +1508,9 @@
         ? `Último backup: ${formatarDataHoraBackup(meta.ultimoBackup)}.`
         : "Nenhum backup feito ainda.";
     }
+    backupPendente = null;
+    const previa = $("#backup-previa");
+    if (previa) previa.classList.add("oculto");
     const status = $("#backup-status");
     if (status) {
       status.textContent = "";
@@ -1395,10 +1595,17 @@
       throw new Error("A meta de questões do backup é inválida.");
     }
 
+    const exportadoEm = typeof backup.exportadoEm === "string" && !Number.isNaN(Date.parse(backup.exportadoEm))
+      ? backup.exportadoEm
+      : null;
+
     return {
-      concluidas: [...new Set(concluidas)],
-      sessoes,
-      config: { dataAlvo: config.dataAlvo, metaDiariaMinutos: minutosMeta, metaQuestoesDia: questoesMeta }
+      estado: {
+        concluidas: [...new Set(concluidas)],
+        sessoes,
+        config: { dataAlvo: config.dataAlvo, metaDiariaMinutos: minutosMeta, metaQuestoesDia: questoesMeta }
+      },
+      exportadoEm
     };
   }
 
@@ -1462,27 +1669,16 @@
       return;
     }
 
+    const previa = $("#backup-previa");
+    if (previa) previa.classList.add("oculto");
+    backupPendente = null;
+
     const leitor = new FileReader();
     leitor.onload = () => {
       try {
         const bruto = JSON.parse(String(leitor.result || ""));
-        const validado = validarBackup(bruto);
-        const atual = lerEstadoSalvo();
-        const temAtual = atual && (
-          (Array.isArray(atual.concluidas) && atual.concluidas.length > 0) ||
-          (Array.isArray(atual.sessoes) && atual.sessoes.length > 0)
-        );
-        if (temAtual && !window.confirm("Importar este backup substitui o progresso atual deste navegador. Deseja continuar?")) {
-          mostrarStatusBackup("Importação cancelada. Nada foi alterado.", false);
-          return;
-        }
-        localStorage.setItem(CHAVE_ESTADO, JSON.stringify(validado));
-        const meta = lerMetaBackup();
-        meta.ultimoBackup = new Date().toISOString();
-        meta.adiadoAte = null;
-        salvarMetaBackup(meta);
-        mostrarStatusBackup("Backup importado. Recarregando o progresso...", false);
-        setTimeout(() => window.location.reload(), 700);
+        const resultado = validarBackup(bruto);
+        mostrarPreviaBackup(resultado, arquivo);
       } catch (erro) {
         mostrarStatusBackup("Backup inválido: " + erro.message, true);
       }

@@ -1421,13 +1421,18 @@ main {
   display: grid;
   place-items: center;
   padding: 1rem;
+  overflow-y: auto;
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(6px);
 }
 
 .modal-caixa {
   width: min(520px, 100%);
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
   padding: 1.4rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   border: 1px solid var(--borda-forte);
   border-radius: 20px;
   background: #141414;
@@ -1533,6 +1538,64 @@ main {
 
 .backup-status.erro {
   margin-top: 0.7rem;
+}
+
+.backup-previa {
+  margin-top: 0.9rem;
+  padding: 0.9rem;
+  border: 1px solid #343434;
+  border-radius: 12px;
+  background: #191919;
+}
+
+.backup-previa h4 {
+  margin-bottom: 0.35rem;
+  color: var(--branco);
+  font-size: 0.86rem;
+}
+
+.backup-previa-arquivo {
+  color: var(--cinza-2) !important;
+  font-size: 0.76rem !important;
+  overflow-wrap: anywhere;
+}
+
+.backup-totais {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.backup-totais div {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #2E2E2E;
+  border-radius: 9px;
+  background: #141414;
+}
+
+.backup-totais dt {
+  color: var(--cinza-3);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.backup-totais dd {
+  margin-top: 0.2rem;
+  color: var(--branco);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.backup-comparacao {
+  color: var(--cinza-2) !important;
+  font-size: 0.78rem !important;
+  line-height: 1.5;
+}
+
+.backup-previa-acoes {
+  margin-top: 0.8rem;
 }
 
 .backup-lembrete {

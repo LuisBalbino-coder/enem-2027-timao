@@ -108,6 +108,17 @@
           <input type="file" id="arquivo-backup" accept=".json,application/json" hidden>
         </div>
         <p class="backup-status oculto" id="backup-status" role="status"></p>
+        <div class="backup-previa oculto" id="backup-previa">
+          <h4>Prévia do backup</h4>
+          <p class="backup-previa-arquivo" id="backup-previa-arquivo"></p>
+          <dl class="backup-totais" id="backup-totais"></dl>
+          <p class="backup-comparacao" id="backup-comparacao"></p>
+          <div class="backup-acoes backup-previa-acoes">
+            <button type="button" class="botao" data-backup-mesclar>Mesclar com o atual</button>
+            <button type="button" class="botao-fantasma" data-backup-substituir>Substituir</button>
+            <button type="button" class="link-secao" data-backup-cancelar>Cancelar</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
