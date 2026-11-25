@@ -454,7 +454,7 @@
           <div class="barra" aria-hidden="true"><i style="width:${pctAulas}%"></i></div>
         </div>
         <div class="metrica">
-          <small>Questões no banco</small>
+          <small>Questões disponíveis</small>
           <strong>${d.contadores.questoes}</strong>
           <div class="barra" aria-hidden="true"><i style="width:100%"></i></div>
         </div>
@@ -475,7 +475,7 @@
           </div>
           <div class="meta-info">
             <h3>Registre o que já estudou</h3>
-            <p>Cada sessão é salva no banco e atualiza a meta do dia.</p>
+            <p>Cada sessão é salva neste dispositivo e atualiza a meta do dia.</p>
             <div class="presets">
               <button class="preset" data-sessao="15">+15 min</button>
               <button class="preset" data-sessao="30">+30 min</button>
@@ -483,6 +483,9 @@
             </div>
           </div>
         </div>
+        <p style="margin-top:.85rem;color:var(--cinza-2);font-size:.82rem">
+          Seu progresso fica salvo neste dispositivo e não sincroniza entre aparelhos.
+        </p>
       </section>
 
       <section class="secao">

@@ -1,4 +1,4 @@
-const CACHE = "enem-2027-timao-v1";
+const CACHE = "enem-2027-timao-v2";
 
 const ASSETS = [
   "./",
